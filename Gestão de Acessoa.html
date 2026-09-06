@@ -288,7 +288,11 @@
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 	<script>
+		const SUPABASE_URL = 'https://vyeukjxuszzhbvyzmujz.supabase.co';
+		const SUPABASE_ANON_KEY = 'sb_publishable_nOu2S0U4Lu6XmYwE4kd2ow_o90Tb8Eh';
+		const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 		const storageKey = 'appCobrancas';
 		const renewalOptions = [
 			{ label: '1 mês', amount: 40 },
@@ -334,29 +338,32 @@
 					changed = true;
 				}
 			});
-			if (changed) localStorage.setItem(storageKey, JSON.stringify(charges));
+			if (changed) save();
 		}
 
-		reopenUpcomingCharges();
-
-		function getStatus(charge) {
-			if (charge.paid) return 'paid';
-			return dateValue(charge.dueDate) < today ? 'overdue' : 'pending';
-		}
-
-		function getCountdown(charge) {
-			if (getStatus(charge) === 'paid') {
-				const cycleDays = Math.max(0, Math.round((dateValue(charge.dueDate) - dateValue(charge.entryDate || charge.dueDate)) / 86400000));
-				const renewalText = `Período cadastrado: ${cycleDays} dia${cycleDays === 1 ? '' : 's'}`;
-				return { text: 'Pagamento recebido', renewalText, type: 'paid', days: null };
+		async function loadCloudCharges(silent = false) {
+			if (!supabaseClient) return;
+			try {
+				const { data, error } = await supabaseClient.from('charges').select('*');
+				if (error) throw error;
+				if (data && data.length > 0) {
+					charges = data;
+					localStorage.setItem(storageKey, JSON.stringify(charges));
+					render();
+				} else if (charges.length > 0 && !silent) {
+					await supabaseClient.from('charges').upsert(charges);
+				}
+			} catch (err) {
+				console.warn('Sincronização em nuvem aguardando tabela:', err.message);
 			}
-			const days = Math.round((dateValue(charge.dueDate) - today) / 86400000);
-			if (days < 0) return { text: `${Math.abs(days)} dia${days === -1 ? '' : 's'} em atraso`, type: 'overdue', days };
-			if (days === 0) return { text: 'Vence hoje', type: 'warning', days };
-			return { text: `${days} dia${days === 1 ? '' : 's'} restante${days === 1 ? '' : 's'}`, type: days <= 7 ? 'warning' : 'paid', days };
 		}
 
-		function save() { localStorage.setItem(storageKey, JSON.stringify(charges)); }
+		function save() {
+			localStorage.setItem(storageKey, JSON.stringify(charges));
+			if (supabaseClient && charges.length > 0) {
+				supabaseClient.from('charges').upsert(charges).catch((err) => console.warn('Erro ao salvar na nuvem:', err));
+			}
+		}
 		function sum(items) { return items.reduce((total, item) => total + item.amount, 0); }
 
 		function updateSummary() {
@@ -624,11 +631,14 @@
 			message.textContent = 'Arquivo preparado para abrir no Excel.';
 		}
 
-		function clearAllCharges() {
+		async function clearAllCharges() {
 			if (!charges.length) return;
 			if (!confirm('Tem certeza que deseja apagar todas as cobranças? Esta ação não pode ser desfeita.')) return;
 			charges = [];
-			save();
+			localStorage.setItem(storageKey, JSON.stringify(charges));
+			if (supabaseClient) {
+				try { await supabaseClient.from('charges').delete().neq('id', '0'); } catch (err) {}
+			}
 			render();
 		}
 
@@ -872,12 +882,33 @@
 				shareCharge(charges[index]);
 				return;
 			}
-			if (button.dataset.action === 'toggle-status') charges[index].paid = !charges[index].paid;
-			if (button.dataset.action === 'delete') charges.splice(index, 1);
-			save(); render();
+			if (button.dataset.action === 'toggle-status') {
+				charges[index].paid = !charges[index].paid;
+				save();
+				render();
+				return;
+			}
+			if (button.dataset.action === 'delete') {
+				const [removed] = charges.splice(index, 1);
+				localStorage.setItem(storageKey, JSON.stringify(charges));
+				if (supabaseClient && removed) {
+					supabaseClient.from('charges').delete().eq('id', removed.id).catch(() => {});
+				}
+				render();
+				return;
+			}
 		});
 
 		render();
+		loadCloudCharges();
+		if (supabaseClient) {
+			supabaseClient
+				.channel('public:charges')
+				.on('postgres_changes', { event: '*', schema: 'public', table: 'charges' }, () => {
+					loadCloudCharges(true);
+				})
+				.subscribe();
+		}
 	</script>
 	<!-- Desenvolvido por Marlon Meneguzzi -->
 </body>

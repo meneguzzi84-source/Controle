@@ -26,11 +26,11 @@
 		}
 
 		* { box-sizing: border-box; }
-		body { margin: 0; background: linear-gradient(rgba(7, 22, 16, .82), rgba(7, 22, 16, .82)), url('cebdb2c32ea7a9fb416b5732c36395aa.jpg') center / cover fixed no-repeat; }
+		body { margin: 0; background: linear-gradient(rgba(7, 22, 16, .82), rgba(7, 22, 16, .82)), url('IMAG/cebdb2c32ea7a9fb416b5732c36395aa.jpg') center / cover fixed no-repeat; }
 		button, input, select { font: inherit; }
 		button { cursor: pointer; }
 
-		.app { max-width: 1280px; margin: 0 auto; padding: 28px; }
+		.app { max-width: 1800px; margin: 0 auto; padding: 36px; }
 		.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
 		.brand { display: flex; align-items: center; gap: 13px; }
 		.brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 8px; background: var(--teal); color: #06231f; font-size: 1.35rem; font-weight: 700; }
@@ -38,21 +38,28 @@
 		.brand p { margin: 3px 0 0; color: var(--muted); font-family: Arial, sans-serif; font-size: .85rem; }
 		.today { color: var(--muted); font-family: Arial, sans-serif; font-size: .85rem; }
 
-		.summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 22px; }
-		.metric { min-height: 126px; padding: 18px; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--teal); border-radius: var(--radius); }
+		.summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-bottom: 28px; }
+		.metric { min-height: 150px; padding: 24px; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--teal); border-radius: var(--radius); }
 		.metric.overdue { border-top-color: var(--red); }
 		.metric.paid { border-top-color: var(--green); }
 		.metric small { display: block; color: var(--green); font-family: Arial, sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 		.metric strong { display: block; margin-top: 14px; font-size: 1.6rem; }
 		.metric span { display: block; margin-top: 5px; color: var(--muted); font-family: Arial, sans-serif; font-size: .78rem; }
+		.weekly-forecast { padding: 26px 28px; margin-bottom: 28px; }
+		.forecast-list { display: grid; gap: 12px; }
+		.forecast-item { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px; border: 1px solid #314047; border-radius: 5px; background: #111a1f; }
+		.forecast-client { color: var(--amber); font-size: .95rem; font-weight: 700; }
+		.forecast-detail { margin-top: 3px; color: var(--muted); font-family: Arial, sans-serif; font-size: .78rem; }
+		.forecast-countdown { color: var(--amber); font-weight: 700; }
+		.forecast-actions { display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; }
 
 		.panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
-		.new-charge { padding: 22px; margin-bottom: 22px; }
+		.new-charge { padding: 28px; margin-bottom: 28px; }
 		.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
 		h2 { margin: 0; color: var(--green); font-size: 1.16rem; }
 		.section-heading p { margin: 0; color: var(--muted); font-family: Arial, sans-serif; font-size: .82rem; }
 		.sub-calc { margin-top: 4px !important; color: var(--muted); font-family: Arial, sans-serif; font-size: .75rem; }
-		.form-grid { display: grid; grid-template-columns: 1.5fr 1fr .9fr 1fr auto; gap: 14px; align-items: end; }
+		.form-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; align-items: end; }
 		label { display: grid; gap: 7px; color: var(--green); font-family: Arial, sans-serif; font-size: .78rem; font-weight: 700; }
 		input, select { min-height: 42px; width: 100%; padding: 9px 11px; border: 1px solid #405159; border-radius: 5px; color: var(--ink); background: #0e171b; outline: none; }
 		input:focus, select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(32, 185, 165, .16); }
@@ -60,7 +67,7 @@
 		.primary:hover { background: var(--teal-dark); }
 
 		.list-panel { overflow: hidden; }
-		.list-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 22px; border-bottom: 1px solid var(--line); }
+		.list-top { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 26px 28px; border-bottom: 1px solid var(--line); }
 		.list-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; }
 		.filters { display: flex; gap: 8px; }
 		.search-control { min-height: 32px; width: 180px; padding: 5px 9px; font-family: Arial, sans-serif; font-size: .76rem; }
@@ -73,8 +80,8 @@
 		.filter { padding: 7px 10px; border: 1px solid transparent; border-radius: 4px; color: var(--muted); background: transparent; font-family: Arial, sans-serif; font-size: .78rem; font-weight: 700; }
 		.filter.active { border-color: #267a70; color: #6ee2d1; background: #143c39; }
 		.table-wrap { overflow-x: auto; }
-		table { width: 100%; border-collapse: collapse; min-width: 900px; }
-		th, td { padding: 15px 22px; text-align: left; border-bottom: 1px solid #29373d; }
+		table { width: 100%; border-collapse: collapse; min-width: 1400px; }
+		th, td { padding: 18px 24px; text-align: left; border-bottom: 1px solid #29373d; }
 		th { color: var(--green); background: #111a1f; font-family: Arial, sans-serif; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
 		td { font-family: Arial, sans-serif; font-size: .88rem; }
 		#charges-body tr:nth-child(odd) { background: #132126; }
@@ -86,9 +93,12 @@
 		tr:last-child td { border-bottom: 0; }
 		.client { display: grid; gap: 3px; }
 		.client-name { display: flex; align-items: center; gap: 8px; }
-		.client strong { color: var(--green); font-family: Georgia, 'Times New Roman', serif; font-size: .98rem; }
+		.client strong { color: var(--amber); font-family: Georgia, 'Times New Roman', serif; font-size: .98rem; font-weight: 700; }
 		.client-description { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .77rem; }
 		.due { color: var(--muted); font-size: .77rem; }
+		.countdown { display: block; margin-top: 4px; color: var(--green); font-size: .72rem; font-weight: 700; }
+		.countdown.warning { color: var(--amber); }
+		.countdown.overdue { color: var(--red); }
 		.amount { font-weight: 700; }
 		.amount-cell { display: flex; align-items: center; gap: 8px; }
 		.badge { display: inline-flex; padding: 5px 8px; border-radius: 4px; font-size: .73rem; font-weight: 700; }
@@ -99,12 +109,15 @@
 		.actions { display: flex; gap: 7px; }
 		.action { min-height: 30px; padding: 0 8px; border: 1px solid #46575e; border-radius: 4px; color: #d1dcdd; background: #1d292e; font-family: Arial, sans-serif; font-size: .73rem; font-weight: 700; }
 		.action.edit { min-height: 15px; padding: 0 4px; font-size: .365rem; }
+		.action.status-toggle { min-height: 15px; padding: 0 4px; font-size: .365rem; }
 		.action.pay { border-color: #397757; color: var(--green); }
 		.action.delete { border-color: #82414b; color: var(--red); }
 		.empty { padding: 48px 20px; color: var(--muted); text-align: center; font-family: Arial, sans-serif; font-size: .9rem; }
+		.clients-counter { padding: 10px 28px; border-top: 1px solid var(--line); color: var(--muted); font-family: Arial, sans-serif; font-size: .76rem; text-align: right; }
+		.clients-counter strong { color: var(--green); }
 		.message { min-height: 20px; margin-top: 12px; color: var(--red); font-family: Arial, sans-serif; font-size: .8rem; }
-		.monthly-report { margin-top: 22px; overflow: hidden; }
-		.monthly-report .section-heading { padding: 20px 22px 0; }
+		.monthly-report { margin-top: 28px; overflow: hidden; }
+		.monthly-report .section-heading { padding: 26px 28px 0; }
 		.modal { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(0, 0, 0, .68); z-index: 10; }
 		.modal.hidden { display: none; }
 		.modal-content { width: min(100%, 360px); padding: 22px; background: #172126; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 24px 60px rgba(0, 0, 0, .4); }
@@ -112,9 +125,11 @@
 		.modal-content p { margin: 0 0 18px; color: var(--muted); font-family: Arial, sans-serif; font-size: .84rem; }
 		.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
 		.modal-cancel { min-height: 38px; padding: 0 12px; border: 1px solid #46575e; border-radius: 4px; color: #d1dcdd; background: #1d292e; font-family: Arial, sans-serif; font-size: .8rem; font-weight: 700; }
+		.watermark { padding: 0 28px 22px; color: rgba(237, 244, 242, .38); font-family: Arial, sans-serif; font-size: .68rem; letter-spacing: .04em; text-align: center; }
 
+		@media (max-width: 1050px) { .form-grid { grid-template-columns: repeat(3, 1fr); } .form-grid .primary { grid-column: span 3; } }
 		@media (max-width: 900px) { .summary { grid-template-columns: repeat(2, 1fr); } .form-grid { grid-template-columns: repeat(2, 1fr); } .form-grid .primary { grid-column: span 2; } }
-		@media (max-width: 560px) { .app { padding: 16px; } .topbar { align-items: flex-start; flex-direction: column; gap: 10px; } .summary { grid-template-columns: 1fr; } .form-grid { grid-template-columns: 1fr; } .form-grid .primary { grid-column: auto; } .list-top { align-items: flex-start; flex-direction: column; } .list-controls { justify-content: flex-start; } .search-control { width: 100%; } }
+		@media (max-width: 560px) { .app { padding: 16px; } .topbar { align-items: flex-start; flex-direction: column; gap: 10px; } .summary { grid-template-columns: 1fr; } .form-grid { grid-template-columns: 1fr; } .form-grid .primary { grid-column: auto; } .list-top, .forecast-item { align-items: flex-start; flex-direction: column; } .list-controls, .forecast-actions { justify-content: flex-start; } .search-control { width: 100%; } }
 	</style>
 </head>
 <body>
@@ -134,12 +149,21 @@
 			<article class="metric paid"><small>Recebido</small><strong id="total-paid">R$ 0,00</strong><span id="paid-count">0 cobranças pagas</span></article>
 		</section>
 
+		<section class="panel weekly-forecast" aria-labelledby="weekly-forecast-title">
+			<div class="section-heading"><div><h2 id="weekly-forecast-title">Previsão: vence esta semana</h2><p>Vencidas e próximas dos 7 dias, das mais antigas às mais recentes.</p></div></div>
+			<div class="forecast-list" id="weekly-forecast-list"></div>
+		</section>
+
 		<section class="panel new-charge">
 			<div class="section-heading"><div><h2>Nova cobrança</h2><p>Registre um novo valor a receber.</p></div></div>
 			<form id="charge-form" class="form-grid">
 				<label>Cliente<input id="client" required placeholder="Nome do cliente"></label>
+				<label>Usuário<input id="username" required autocomplete="username" placeholder="Nome de usuário"></label>
+				<label>Senha<input id="password" required type="text" autocomplete="new-password" placeholder="Senha de acesso"></label>
 				<label>Descrição<input id="description" required placeholder="Ex: Projeto de site"></label>
+				<label>Plano de renovação<select id="renewal-plan"><option value="">Valor personalizado</option></select></label>
 				<label>Valor<input id="amount" required type="number" min="0.01" step="0.01" placeholder="0,00"></label>
+				<label>Data de entrada<input id="entry-date" required type="date"></label>
 				<label>Vencimento<input id="due-date" required type="date"></label>
 				<button class="primary" type="submit">Adicionar</button>
 			</form>
@@ -157,7 +181,7 @@
 						<button class="filter" type="button" data-filter="paid">Pagas</button>
 					</nav>
 					<input class="search-control" id="client-search" type="search" placeholder="Pesquisar cliente" aria-label="Pesquisar por nome do cliente">
-					<input 	class="search-control" id="month-search" type="month" title="Pesquisar clientes por mês de vencimento" aria-label="Pesquisar clientes por mês de vencimento">
+					<input class="search-control" id="month-search" type="month" title="Pesquisar clientes por mês de vencimento" aria-label="Pesquisar clientes por mês de vencimento">
 					<label class="sort-control" for="due-order">Ordenar
 						<select id="due-order">
 							<option value="ascending">Vencimento: mais próximo</option>
@@ -166,16 +190,19 @@
 							<option value="client-descending">Cliente: Z-A</option>
 						</select>
 					</label>
+					<input id="import-excel-file" type="file" accept=".xlsx,.xls,.csv" hidden>
+					<button class="export-button" id="import-excel" type="button">Importar do Excel</button>
 					<button class="export-button" id="export-excel" type="button">Exportar para Excel</button>
 					<button class="clear-all-button" id="clear-all-charges" type="button">Limpar todas</button>
 				</div>
 			</div>
 			<div class="table-wrap">
 				<table>
-					<thead><tr><th>Cliente</th><th>Valor</th><th>Entrada</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead>
+					<thead><tr><th>Cliente</th><th>Usuário</th><th>Senha</th><th>Valor</th><th>Entrada</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead>
 					<tbody id="charges-body"></tbody>
 				</table>
 			</div>
+			<div class="clients-counter" id="clients-counter" aria-live="polite">0 clientes cadastrados</div>
 		</section>
 
 		<section class="panel monthly-report">
@@ -188,6 +215,7 @@
 			</div>
 		</section>
 	</main>
+	<div class="watermark" aria-hidden="true">Desenvolvido por Marlon Meneguzzi</div>
 
 	<div class="modal hidden" id="edit-amount-modal" role="dialog" aria-modal="true" aria-labelledby="edit-amount-title">
 		<div class="modal-content">
@@ -231,10 +259,51 @@
 		</div>
 	</div>
 
+	<div class="modal hidden" id="edit-date-modal" role="dialog" aria-modal="true" aria-labelledby="edit-date-title">
+		<div class="modal-content">
+			<h2 id="edit-date-title">Editar data</h2>
+			<p id="edit-date-client"></p>
+			<label for="edit-date-input">Nova data
+				<input id="edit-date-input" type="date" required>
+			</label>
+			<div class="modal-actions">
+				<button class="modal-cancel" id="cancel-edit-date" type="button">Cancelar</button>
+				<button class="primary" id="save-edit-date" type="button">Salvar</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal hidden" id="edit-credential-modal" role="dialog" aria-modal="true" aria-labelledby="edit-credential-title">
+		<div class="modal-content">
+			<h2 id="edit-credential-title">Editar dado de acesso</h2>
+			<p id="edit-credential-client"></p>
+			<label for="edit-credential-input" id="edit-credential-label">Novo valor
+				<input id="edit-credential-input" type="text" required>
+			</label>
+			<div class="modal-actions">
+				<button class="modal-cancel" id="cancel-edit-credential" type="button">Cancelar</button>
+				<button class="primary" id="save-edit-credential" type="button">Salvar</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 	<script>
+		const SUPABASE_URL = 'https://vyeukjxuszzhbvyzmujz.supabase.co';
+		const SUPABASE_ANON_KEY = 'sb_publishable_nOu2S0U4Lu6XmYwE4kd2ow_o90Tb8Eh';
+		const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 		const storageKey = 'appCobrancas';
-		const chargesApi = '/api/charges';
-		let charges = [];
+		const renewalOptions = [
+			{ label: '1 mês', amount: 40 },
+			{ label: '3 meses', amount: 105 },
+			{ label: '6 meses', amount: 180 },
+			{ label: '12 meses', amount: 275 },
+		];
+		const pixKey = '51980465261';
+		let charges = JSON.parse(localStorage.getItem(storageKey)) || [];
+		charges.forEach((charge) => delete charge.renewalScheduled);
+		localStorage.setItem(storageKey, JSON.stringify(charges));
 		let activeFilter = 'all';
 		let dueOrder = 'ascending';
 		let clientSearch = '';
@@ -242,8 +311,11 @@
 		let editingChargeIndex = null;
 		let editingClientIndex = null;
 		let editingDescriptionIndex = null;
+		let editingDate = null;
+		let editingCredential = null;
 		const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 		const formatDate = (date) => new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(`${date}T12:00:00`));
+		const displayDate = (original, stored) => original || (stored ? formatDate(stored) : '—');
 		const formatMonth = (month) => {
 			const formattedMonth = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(new Date(`${month}-01T12:00:00`));
 			return formattedMonth.charAt(0).toLocaleUpperCase('pt-BR') + formattedMonth.slice(1);
@@ -253,46 +325,51 @@
 		today.setHours(0, 0, 0, 0);
 
 		document.getElementById('today').textContent = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }).format(today);
+		document.getElementById('renewal-plan').insertAdjacentHTML('beforeend', renewalOptions.map((option) => `<option value="${option.amount}">Renovação: ${currency.format(option.amount)} por ${option.label}</option>`).join(''));
+		document.getElementById('entry-date').value = new Date().toISOString().slice(0, 10);
 		document.getElementById('due-date').value = new Date().toISOString().slice(0, 10);
 
-		function getStatus(charge) {
-			if (charge.paid) return 'paid';
-			return dateValue(charge.dueDate) < today ? 'overdue' : 'pending';
+		function reopenUpcomingCharges() {
+			let changed = false;
+			charges.forEach((charge) => {
+				const days = Math.round((dateValue(charge.dueDate) - today) / 86400000);
+				if (charge.paid && days <= 7) {
+					charge.paid = false;
+					changed = true;
+				}
+			});
+			if (changed) save();
+		}
+
+		async function loadCloudCharges(silent = false) {
+			if (!supabaseClient) return;
+			try {
+				const { data, error } = await supabaseClient.from('charges').select('*');
+				if (error) throw error;
+				if (data && data.length > 0) {
+					charges = data;
+					localStorage.setItem(storageKey, JSON.stringify(charges));
+					render();
+				} else if (charges.length > 0 && !silent) {
+					await supabaseClient.from('charges').upsert(charges);
+				}
+			} catch (err) {
+				console.warn('Sincronização em nuvem aguardando tabela:', err.message);
+			}
 		}
 
 		function save() {
 			localStorage.setItem(storageKey, JSON.stringify(charges));
-			fetch(chargesApi, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(charges),
-			}).then((response) => {
-				if (!response.ok) throw new Error('Não foi possível salvar os dados no servidor.');
-			}).catch(() => {
-				document.getElementById('message').textContent = 'Alteração salva neste aparelho, mas não foi sincronizada com o servidor.';
-			});
-		}
-
-		async function loadCharges() {
-			try {
-				const response = await fetch(chargesApi, { cache: 'no-store' });
-				if (!response.ok) throw new Error('Não foi possível carregar os dados do servidor.');
-				const savedCharges = await response.json();
-				if (!Array.isArray(savedCharges)) throw new Error('Dados inválidos recebidos do servidor.');
-				charges = savedCharges;
-				render();
-			} catch (error) {
-				charges = JSON.parse(localStorage.getItem(storageKey)) || [];
-				document.getElementById('message').textContent = 'Modo local ativo: conecte-se ao servidor para sincronizar seus dados.';
-				render();
+			if (supabaseClient && charges.length > 0) {
+				supabaseClient.from('charges').upsert(charges).catch((err) => console.warn('Erro ao salvar na nuvem:', err));
 			}
 		}
 		function sum(items) { return items.reduce((total, item) => total + item.amount, 0); }
 
 		function updateSummary() {
-			const open = charges.filter((charge) => !charge.paid);
+			const open = charges.filter((charge) => getStatus(charge) !== 'paid');
 			const overdue = open.filter((charge) => getStatus(charge) === 'overdue');
-			const paid = charges.filter((charge) => charge.paid);
+			const paid = charges.filter((charge) => getStatus(charge) === 'paid');
 			const weekEnd = new Date(today);
 			weekEnd.setDate(today.getDate() + 7);
 			const week = open.filter((charge) => { const due = dateValue(charge.dueDate); return due >= today && due <= weekEnd; });
@@ -306,8 +383,24 @@
 			document.getElementById('paid-count').textContent = `${paid.length} cobrança${paid.length === 1 ? '' : 's'} paga${paid.length === 1 ? '' : 's'}`;
 		}
 
+		function renderWeeklyForecast() {
+			const upcoming = charges
+				.filter((charge) => getStatus(charge) !== 'paid' && getCountdown(charge).days <= 7)
+				.sort((first, second) => dateValue(first.dueDate) - dateValue(second.dueDate));
+			const list = document.getElementById('weekly-forecast-list');
+			if (!upcoming.length) {
+				list.innerHTML = '<p class="empty">Nenhuma cobrança vencida ou com vencimento nos próximos 7 dias.</p>';
+				return;
+			}
+			list.innerHTML = upcoming.map((charge) => {
+				const countdown = getCountdown(charge);
+				return `<article class="forecast-item"><div><div class="forecast-client">${escapeHtml(charge.client)}</div><div class="forecast-detail">${currency.format(charge.amount)} · Vencimento: ${formatDate(charge.dueDate)} · <span class="forecast-countdown">${countdown.text}</span></div></div><div class="forecast-actions"><button class="action" data-action="share" data-id="${charge.id}">Compartilhar</button></div></article>`;
+			}).join('');
+		}
+
 		function render() {
 			updateSummary();
+			renderWeeklyForecast();
 			renderMonthlyReport();
 			const filtered = charges
 				.filter((charge) => activeFilter === 'all' || getStatus(charge) === activeFilter)
@@ -325,16 +418,42 @@
 			const totalClients = new Set(charges.map((charge) => charge.client.trim().toLocaleLowerCase('pt-BR'))).size;
 			const totalAmount = sum(charges);
 			const averagePerClient = totalClients > 0 ? totalAmount / totalClients : 0;
-			if (document.getElementById('average-per-client')) {
-				document.getElementById('average-per-client').textContent = `Média por cliente: ${currency.format(averagePerClient)} (${currency.format(totalAmount)} ÷ ${totalClients} cliente${totalClients === 1 ? '' : 's'})`;
-			}
-			if (!filtered.length) { body.innerHTML = '<tr><td class="empty" colspan="6">Nenhuma cobrança para este filtro.</td></tr>'; return; }
+			document.getElementById('average-per-client').textContent = `Média por cliente: ${currency.format(averagePerClient)} (${currency.format(totalAmount)} ÷ ${totalClients} cliente${totalClients === 1 ? '' : 's'})`;
+			document.getElementById('clients-counter').textContent = `${totalClients} cliente${totalClients === 1 ? '' : 's'} cadastrado${totalClients === 1 ? '' : 's'}`;
+			if (!filtered.length) { body.innerHTML = '<tr><td class="empty" colspan="8">Nenhuma cobrança para este filtro.</td></tr>'; return; }
 			body.innerHTML = filtered.map((charge) => {
 				const status = getStatus(charge);
 				const labels = { pending: 'Pendente', overdue: 'Em atraso', paid: 'Pago' };
 				const entryDate = charge.entryDate || charge.dueDate;
-				return `<tr><td><div class="client"><div class="client-name"><strong>${escapeHtml(charge.client)}</strong><button class="action edit" data-action="edit-client" data-id="${charge.id}">Editar</button></div><div class="client-description"><span>${escapeHtml(charge.description)}</span><button class="action edit" data-action="edit-description" data-id="${charge.id}">Editar</button></div></div></td><td><div class="amount-cell"><span class="amount">${currency.format(charge.amount)}</span><button class="action edit" data-action="edit-amount" data-id="${charge.id}">Editar</button></div></td><td><span class="due">${formatDate(entryDate)}</span></td><td><span class="due">${formatDate(charge.dueDate)}</span></td><td><div class="status-cell"><span class="badge ${status}">${labels[status]}</span><button class="action edit" data-action="toggle-status" data-id="${charge.id}">Editar</button></div></td><td><div class="actions"><button class="action delete" data-action="delete" data-id="${charge.id}">Excluir</button></div></td></tr>`;
+				const password = charge.password ? escapeHtml(charge.password) : '—';
+				const countdown = getCountdown(charge);
+				const statusButton = `<button class="action status-toggle ${status === 'paid' ? '' : 'pay'}" data-action="toggle-status" data-id="${charge.id}">${status === 'paid' ? 'Marcar como pendente' : 'Marcar como pago'}</button>`;
+				const renewalCountdown = countdown.renewalText ? `<span class="countdown ${countdown.type}">${countdown.renewalText}</span>` : '';
+				return `<tr><td><div class="client"><div 	class="client-name"><strong>${escapeHtml(charge.client)}</strong><button class="action edit" data-action="edit-client" data-id="${charge.id}">Editar</button></div><div class="client-description"><span>${escapeHtml(charge.description)}</span><button class="action edit" data-action="edit-description" data-id="${charge.id}">Editar</button></div></div></td><td>${escapeHtml(charge.username || '—')}<button class="action edit" data-action="edit-username" data-id="${charge.id}">Editar</button></td><td>${password}<button class="action edit" data-action="edit-password" data-id="${charge.id}">Editar</button></td><td><div class="amount-cell"><span class="amount">${currency.format(charge.amount)}</span><button class="action edit" data-action="edit-amount" data-id="${charge.id}">Editar</button></div></td><td><span class="due">${displayDate(charge.entryDateOriginal, charge.entryDate)}<button class="action edit" data-action="edit-entry-date" data-id="${charge.id}">Editar</button></span></td><td><span class="due">${displayDate(charge.dueDateOriginal, charge.dueDate)}<button class="action edit" data-action="edit-due-date" data-id="${charge.id}">Editar</button><span class="countdown ${countdown.type}">${countdown.text}</span>${renewalCountdown}</span></td><td><div class="status-cell"><span class="badge ${status}">${labels[status]}</span>${statusButton}</div></td><td><div class="actions"><button class="action" data-action="share" data-id="${charge.id}">Compartilhar</button><button class="action delete" data-action="delete" data-id="${charge.id}">Excluir</button></div></td></tr>`;
 			}).join('');
+		}
+
+		function getShareMessage(charge) {
+			const status = { pending: 'Pendente', overdue: 'Em atraso', paid: 'Pago' }[getStatus(charge)];
+			const entryDate = charge.entryDate;
+			const renewalText = renewalOptions.map((option) => `Renovação: ${currency.format(option.amount)} por ${option.label}`).join('\n');
+			return `Olá, ${charge.client}!\n\nSegue sua cobrança:\nDescrição: ${charge.description}\nValor: ${currency.format(charge.amount)}\nData de entrada: ${displayDate(charge.entryDateOriginal, entryDate)}\nVencimento: ${displayDate(charge.dueDateOriginal, charge.dueDate)}\nStatus: ${status}\n\nOpções de renovação:\n${renewalText}\n\nPix para pagamento: ${pixKey}\n\nDados de acesso:\nUsuário: ${charge.username || 'Não informado'}\nSenha: ${charge.password || 'Não informada'}`;
+		}
+
+		async function shareCharge(charge) {
+			const text = getShareMessage(charge);
+			const message = document.getElementById('message');
+			try {
+				if (navigator.share) {
+					await navigator.share({ title: 'Cobrança', text });
+					message.textContent = '';
+					return;
+				}
+				await navigator.clipboard.writeText(text);
+				message.textContent = 'Cobrança copiada. Cole a mensagem no WhatsApp, e-mail ou outro canal.';
+			} catch (error) {
+				if (error.name !== 'AbortError') message.textContent = 'Não foi possível compartilhar a cobrança.';
+			}
 		}
 
 		function renderMonthlyReport() {
@@ -343,7 +462,7 @@
 				if (!totals[month]) totals[month] = { expected: 0, paid: 0, pending: 0, overdue: 0 };
 				const current = totals[month];
 				current.expected += charge.amount;
-				if (charge.paid) current.paid += charge.amount;
+				if (getStatus(charge) === 'paid') current.paid += charge.amount;
 				else if (getStatus(charge) === 'overdue') current.overdue += charge.amount;
 				else current.pending += charge.amount;
 				return totals;
@@ -368,6 +487,118 @@
 			return `"${String(value).replace(/"/g, '""')}"`;
 		}
 
+		function normalizeHeader(value) {
+			return String(value || '').trim().toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+		}
+
+		function parseImportedDate(value) {
+			if (typeof value === 'number' && Number.isFinite(value) && window.XLSX?.SSF?.parse_date_code) {
+				const parts = XLSX.SSF.parse_date_code(value);
+				if (!parts) return '';
+				return `${parts.y}-${String(parts.m).padStart(2, '0')}-${String(parts.d).padStart(2, '0')}`;
+			}
+			if (value instanceof Date && !Number.isNaN(value.getTime())) {
+				const year = value.getUTCFullYear();
+				const month = String(value.getUTCMonth() + 1).padStart(2, '0');
+				const day = String(value.getUTCDate()).padStart(2, '0');
+				return `${year}-${month}-${day}`;
+			}
+			const text = String(value || '').trim();
+			if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+			const match = text.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2}|\d{4})$/);
+			if (!match) return '';
+			const year = match[3].length === 2 ? `20${match[3]}` : match[3];
+			const month = match[2].padStart(2, '0');
+			const day = match[1].padStart(2, '0');
+			const date = new Date(Number(year), Number(month) - 1, Number(day));
+			if (date.getFullYear() !== Number(year) || date.getMonth() !== Number(month) - 1 || date.getDate() !== Number(day)) return '';
+			return `${year}-${month}-${day}`;
+		}
+
+		function parseImportedAmount(value) {
+			if (typeof value === 'number') return value;
+			let normalized = String(value || '').trim().replace(/R\$\s?/gi, '').replace(/\s/g, '');
+			if (normalized.includes(',')) normalized = normalized.replace(/\./g, '').replace(',', '.');
+			const amount = Number(normalized);
+			return Number.isFinite(amount) ? amount : NaN;
+		}
+
+		function importSpreadsheet(file) {
+			const message = document.getElementById('message');
+			if (!window.XLSX) {
+				message.textContent = 'Não foi possível carregar o leitor de planilhas. Verifique sua conexão e tente novamente.';
+				return;
+			}
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				try {
+					const workbook = XLSX.read(event.target.result, { type: 'array', cellDates: false });
+					const sheet = workbook.Sheets[workbook.SheetNames[0]];
+					const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: true });
+					const displayedDate = (row, rowIndex, index) => {
+						if (index < 0) return '';
+						const cell = sheet[XLSX.utils.encode_cell({ r: rowIndex + 1, c: index })];
+						return cell ? (cell.w || XLSX.SSF.format(cell.z || 'General', cell.v)) : String(row[index] || '').trim();
+					};
+					const headers = (rows.shift() || []).map(normalizeHeader);
+					const column = (names) => headers.findIndex((header) => names.includes(header));
+					const clientColumn = column(['cliente', 'nome', 'nome do cliente']);
+					const usernameColumn = column(['usuario', 'nome de usuario', 'nome usuario', 'username']);
+					const passwordColumn = column(['senha', 'password']);
+					const descriptionColumn = column(['descricao', 'descricao da cobranca', 'servico']);
+					const amountColumn = column(['valor', 'valor (r$)', 'valor r$', 'valor (rs)']);
+					const entryDateColumn = column(['data de entrada', 'entrada']);
+					const dueDateColumn = column(['data de vencimento', 'vencimento']);
+					const statusColumn = column(['status']);
+					if (clientColumn < 0 || amountColumn < 0 || dueDateColumn < 0) {
+						message.textContent = 'A planilha precisa ter as colunas Cliente, Valor (R$) e Data de vencimento.';
+						return;
+					}
+					const imported = [];
+					let skipped = 0;
+					rows.forEach((row, rowIndex) => {
+						const client = String(row[clientColumn] || '').trim();
+						const amount = parseImportedAmount(row[amountColumn]);
+						const dueDate = parseImportedDate(row[dueDateColumn]);
+						const entryDateOriginal = displayedDate(row, rowIndex, entryDateColumn);
+						const dueDateOriginal = displayedDate(row, rowIndex, dueDateColumn);
+						if (!client || !Number.isFinite(amount) || amount <= 0 || !dueDate) { skipped += 1; return; }
+						const status = normalizeHeader(row[statusColumn]);
+						imported.push({
+							id: `${Date.now()}-${imported.length}`,
+							client,
+							username: usernameColumn < 0 ? '' : String(row[usernameColumn] || '').trim(),
+							password: passwordColumn < 0 ? '' : String(row[passwordColumn] || ''),
+							description: descriptionColumn < 0 ? 'Cobrança importada' : String(row[descriptionColumn] || 'Cobrança importada').trim(),
+							amount,
+							entryDate: entryDateColumn < 0 ? '' : parseImportedDate(row[entryDateColumn]),
+							entryDateOriginal,
+							paid: ['pago', 'paga', 'recebido', 'recebida'].includes(status),
+							dueDate,
+							dueDateOriginal,
+						});
+					});
+					if (!imported.length) { message.textContent = 'Nenhuma linha válida foi encontrada na planilha.'; return; }
+					const importedClients = new Set(imported.map((charge) => charge.client.trim().toLocaleLowerCase('pt-BR')));
+					const previousByClient = new Map(charges
+						.filter((charge) => importedClients.has(charge.client.trim().toLocaleLowerCase('pt-BR')))
+						.map((charge) => [charge.client.trim().toLocaleLowerCase('pt-BR'), charge]));
+					charges = charges.filter((charge) => !importedClients.has(charge.client.trim().toLocaleLowerCase('pt-BR')));
+					imported.forEach((charge) => {
+						const previous = previousByClient.get(charge.client.trim().toLocaleLowerCase('pt-BR'));
+						if (previous) charge.id = previous.id;
+						charges.push(charge);
+					});
+					save();
+					render();
+					message.textContent = `${imported.length} cobrança${imported.length === 1 ? '' : 's'} importada${imported.length === 1 ? '' : 's'} ou atualizada${skipped ? `; ${skipped} linha${skipped === 1 ? '' : 's'} ignorada${skipped === 1 ? '' : 's'}.` : '.'}`;
+				} catch (error) {
+					message.textContent = 'Não foi possível ler esta planilha. Use um arquivo Excel ou CSV válido.';
+				}
+			};
+			reader.readAsArrayBuffer(file);
+		}
+
 		function exportToExcel() {
 			const message = document.getElementById('message');
 			if (!charges.length) {
@@ -378,14 +609,16 @@
 			const labels = { pending: 'Pendente', overdue: 'Em atraso', paid: 'Pago' };
 			const rows = charges.map((charge) => [
 				charge.client,
+				charge.username || '',
+				charge.password || '',
 				charge.description,
 				charge.amount.toFixed(2).replace('.', ','),
-				charge.entryDate || charge.dueDate,
-				charge.dueDate,
+				charge.entryDateOriginal || charge.entryDate || '',
+				charge.dueDateOriginal || charge.dueDate,
 				labels[getStatus(charge)],
 			]);
 			const csv = [
-				['Cliente', 'Descrição', 'Valor (R$)', 'Data de entrada', 'Data de vencimento', 'Status'],
+				['Cliente', 'Usuário', 'Senha', 'Descrição', 'Valor (R$)', 'Data de entrada', 'Data de vencimento', 'Status'],
 				...rows,
 			].map((row) => row.map(escapeCsv).join(';')).join('\r\n');
 			const file = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
@@ -398,11 +631,14 @@
 			message.textContent = 'Arquivo preparado para abrir no Excel.';
 		}
 
-		function clearAllCharges() {
+		async function clearAllCharges() {
 			if (!charges.length) return;
 			if (!confirm('Tem certeza que deseja apagar todas as cobranças? Esta ação não pode ser desfeita.')) return;
 			charges = [];
-			save();
+			localStorage.setItem(storageKey, JSON.stringify(charges));
+			if (supabaseClient) {
+				try { await supabaseClient.from('charges').delete().neq('id', '0'); } catch (err) {}
+			}
 			render();
 		}
 
@@ -483,16 +719,78 @@
 			closeEditDescriptionModal();
 		}
 
+		function openEditDateModal(index, field) {
+			const charge = charges[index];
+			editingDate = { index, field };
+			document.getElementById('edit-date-title').textContent = field === 'entryDate' ? 'Editar data de entrada' : 'Editar vencimento';
+			document.getElementById('edit-date-client').textContent = `Nova data para ${charge.client}.`;
+			document.getElementById('edit-date-input').value = charge[field] || charge.dueDate;
+			document.getElementById('edit-date-modal').classList.remove('hidden');
+			document.getElementById('edit-date-input').focus();
+		}
+
+		function closeEditDateModal() {
+			editingDate = null;
+			document.getElementById('edit-date-modal').classList.add('hidden');
+		}
+
+		function saveEditedDate() {
+			if (!editingDate) return;
+			const date = document.getElementById('edit-date-input').value;
+			if (!date) {
+				alert('Informe uma data válida.');
+				return;
+			}
+			charges[editingDate.index][editingDate.field] = date;
+			charges[editingDate.index][`${editingDate.field}Original`] = '';
+			if (editingDate.field === 'dueDate') reopenUpcomingCharges();
+			save();
+			render();
+			closeEditDateModal();
+		}
+
+		function openEditCredentialModal(index, field) {
+			const fieldName = field === 'username' ? 'usuário' : 'senha';
+			editingCredential = { index, field };
+			document.getElementById('edit-credential-title').textContent = `Editar ${fieldName}`;
+			document.getElementById('edit-credential-client').textContent = `Novo ${fieldName} para ${charges[index].client}.`;
+			document.getElementById('edit-credential-label').firstChild.textContent = `Novo ${fieldName}`;
+			document.getElementById('edit-credential-input').value = charges[index][field] || '';
+			document.getElementById('edit-credential-modal').classList.remove('hidden');
+			document.getElementById('edit-credential-input').focus();
+		}
+
+		function closeEditCredentialModal() {
+			editingCredential = null;
+			document.getElementById('edit-credential-modal').classList.add('hidden');
+		}
+
+		function saveEditedCredential() {
+			if (!editingCredential) return;
+			const value = document.getElementById('edit-credential-input').value.trim();
+			if (!value) {
+				alert('Informe um valor válido.');
+				return;
+			}
+			charges[editingCredential.index][editingCredential.field] = value;
+			save();
+			render();
+			closeEditCredentialModal();
+		}
+
 		document.getElementById('charge-form').addEventListener('submit', (event) => {
 			event.preventDefault();
 			const client = document.getElementById('client').value.trim();
+			const username = document.getElementById('username').value.trim();
+			const password = document.getElementById('password').value;
 			const description = document.getElementById('description').value.trim();
 			const amount = Number(document.getElementById('amount').value);
+			const entryDate = document.getElementById('entry-date').value;
 			const dueDate = document.getElementById('due-date').value;
 			const message = document.getElementById('message');
-			if (!client || !description || !dueDate || !Number.isFinite(amount) || amount <= 0) { message.textContent = 'Preencha todos os campos com um valor válido.'; return; }
-			charges.push({ id: Date.now().toString(), client, description, amount, entryDate: new Date().toISOString().slice(0, 10), dueDate, paid: false });
-			save(); event.target.reset(); document.getElementById('due-date').value = new Date().toISOString().slice(0, 10); message.textContent = ''; render();
+			if (!client || !username || !password || !description || !entryDate || !dueDate || !Number.isFinite(amount) || amount <= 0) { message.textContent = 'Preencha todos os campos com um valor válido.'; return; }
+			charges.push({ id: Date.now().toString(), client, username, password, description, amount, entryDate, dueDate, paid: false });
+			save(); event.target.reset(); document.getElementById('entry-date').value = new Date().toISOString().slice(0, 10); document.getElementById('due-date').value = new Date().toISOString().slice(0, 10); message.textContent = ''; render();
 		});
 
 		document.querySelector('.filters').addEventListener('click', (event) => {
@@ -518,6 +816,16 @@
 			render();
 		});
 
+		document.getElementById('renewal-plan').addEventListener('change', (event) => {
+			if (event.target.value) document.getElementById('amount').value = event.target.value;
+		});
+
+		document.getElementById('import-excel').addEventListener('click', () => document.getElementById('import-excel-file').click());
+		document.getElementById('import-excel-file').addEventListener('change', (event) => {
+			const [file] = event.target.files;
+			if (file) importSpreadsheet(file);
+			event.target.value = '';
+		});
 		document.getElementById('export-excel').addEventListener('click', exportToExcel);
 		document.getElementById('clear-all-charges').addEventListener('click', clearAllCharges);
 		document.getElementById('cancel-edit-amount').addEventListener('click', closeEditAmountModal);
@@ -526,6 +834,16 @@
 		document.getElementById('save-edit-client').addEventListener('click', saveEditedClient);
 		document.getElementById('cancel-edit-description').addEventListener('click', closeEditDescriptionModal);
 		document.getElementById('save-edit-description').addEventListener('click', saveEditedDescription);
+		document.getElementById('cancel-edit-date').addEventListener('click', closeEditDateModal);
+		document.getElementById('save-edit-date').addEventListener('click', saveEditedDate);
+		document.getElementById('cancel-edit-credential').addEventListener('click', closeEditCredentialModal);
+		document.getElementById('save-edit-credential').addEventListener('click', saveEditedCredential);
+		document.getElementById('weekly-forecast-list').addEventListener('click', (event) => {
+			const button = event.target.closest('[data-action="share"]');
+			if (!button) return;
+			const charge = charges.find((item) => item.id === button.dataset.id);
+			if (charge) shareCharge(charge);
+		});
 
 		document.getElementById('charges-body').addEventListener('click', (event) => {
 			const button = event.target.closest('[data-action]');
@@ -544,12 +862,54 @@
 				openEditAmountModal(index);
 				return;
 			}
-			if (button.dataset.action === 'toggle-status') charges[index].paid = !charges[index].paid;
-			if (button.dataset.action === 'delete') charges.splice(index, 1);
-			save(); render();
+			if (button.dataset.action === 'edit-username') {
+				openEditCredentialModal(index, 'username');
+				return;
+			}
+			if (button.dataset.action === 'edit-password') {
+				openEditCredentialModal(index, 'password');
+				return;
+			}
+			if (button.dataset.action === 'edit-entry-date') {
+				openEditDateModal(index, 'entryDate');
+				return;
+			}
+			if (button.dataset.action === 'edit-due-date') {
+				openEditDateModal(index, 'dueDate');
+				return;
+			}
+			if (button.dataset.action === 'share') {
+				shareCharge(charges[index]);
+				return;
+			}
+			if (button.dataset.action === 'toggle-status') {
+				charges[index].paid = !charges[index].paid;
+				save();
+				render();
+				return;
+			}
+			if (button.dataset.action === 'delete') {
+				const [removed] = charges.splice(index, 1);
+				localStorage.setItem(storageKey, JSON.stringify(charges));
+				if (supabaseClient && removed) {
+					supabaseClient.from('charges').delete().eq('id', removed.id).catch(() => {});
+				}
+				render();
+				return;
+			}
 		});
 
-		loadCharges();
+		render();
+		loadCloudCharges();
+		if (supabaseClient) {
+			supabaseClient
+				.channel('public:charges')
+				.on('postgres_changes', { event: '*', schema: 'public', table: 'charges' }, () => {
+					loadCloudCharges(true);
+				})
+				.subscribe();
+		}
 	</script>
+	<!-- Desenvolvido por Marlon Meneguzzi -->
 </body>
 </html>
