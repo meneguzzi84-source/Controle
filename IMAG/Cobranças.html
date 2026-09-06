@@ -346,7 +346,8 @@
 			try {
 				const { data, error } = await supabaseClient.from('charges').select('*');
 				if (error) throw error;
-				if (data && data.length > 0) {
+				if (Array.isArray(data) && data.length > 0) {
+					// Se veio dados da nuvem, mescla ou atualiza
 					charges = data;
 					localStorage.setItem(storageKey, JSON.stringify(charges));
 					render();
@@ -361,10 +362,8 @@
 
 		function save() {
 			localStorage.setItem(storageKey, JSON.stringify(charges));
-			if (supabaseClient) {
-				if (charges.length > 0) {
-					supabaseClient.from('charges').upsert(charges).catch((err) => console.warn('Erro ao salvar na nuvem:', err));
-				}
+			if (supabaseClient && charges.length > 0) {
+				supabaseClient.from('charges').upsert(charges).catch((err) => console.warn('Erro ao salvar na nuvem:', err));
 			}
 		}
 		function sum(items) { return items.reduce((total, item) => total + item.amount, 0); }
