@@ -158,12 +158,12 @@
 			<div class="section-heading"><div><h2>Nova cobrança</h2><p>Registre um novo valor a receber.</p></div></div>
 			<form id="charge-form" class="form-grid">
 				<label>Cliente<input id="client" required placeholder="Nome do cliente"></label>
-				<label>Usuário<input id="username" required autocomplete="username" placeholder="Nome de usuário"></label>
-				<label>Senha<input id="password" required type="text" autocomplete="new-password" placeholder="Senha de acesso"></label>
-				<label>Descrição<input id="description" required placeholder="Ex: Projeto de site"></label>
+				<label>Usuário<input id="username" autocomplete="username" placeholder="Nome de usuário"></label>
+				<label>Senha<input id="password" type="text" autocomplete="new-password" placeholder="Senha de acesso"></label>
+				<label>Descrição<input id="description" placeholder="Ex: Projeto de site ou P2P"></label>
 				<label>Plano de renovação<select id="renewal-plan"><option value="">Valor personalizado</option></select></label>
-				<label>Valor<input id="amount" required type="number" min="0.01" step="0.01" placeholder="0,00"></label>
-				<label>Data de entrada<input id="entry-date" required type="date"></label>
+				<label>Valor<input id="amount" required type="number" min="0" step="0.01" placeholder="0,00"></label>
+				<label>Data de entrada<input id="entry-date" type="date"></label>
 				<label>Vencimento<input id="due-date" required type="date"></label>
 				<button class="primary" type="submit">Adicionar</button>
 			</form>
@@ -1266,10 +1266,19 @@
 		}
 
 		function parseImportedDate(value) {
-			if (typeof value === 'number' && Number.isFinite(value) && window.XLSX?.SSF?.parse_date_code) {
-				const parts = XLSX.SSF.parse_date_code(value);
-				if (!parts) return '';
-				return `${parts.y}-${String(parts.m).padStart(2, '0')}-${String(parts.d).padStart(2, '0')}`;
+			if (!value && value !== 0) return '';
+			if (typeof value === 'number' && Number.isFinite(value)) {
+				if (window.XLSX?.SSF?.parse_date_code) {
+					try {
+						const parts = XLSX.SSF.parse_date_code(value);
+						if (parts) return `${parts.y}-${String(parts.m).padStart(2, '0')}-${String(parts.d).padStart(2, '0')}`;
+					} catch (e) {}
+				}
+				// Cálculo de data serial caso SSF não esteja disponível
+				const date = new Date(Math.round((value - 25569) * 86400 * 1000));
+				if (!Number.isNaN(date.getTime())) {
+					return date.toISOString().slice(0, 10);
+				}
 			}
 			if (value instanceof Date && !Number.isNaN(value.getTime())) {
 				const year = value.getUTCFullYear();
@@ -1279,96 +1288,183 @@
 			}
 			const text = String(value || '').trim();
 			if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
-			const match = text.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2}|\d{4})$/);
-			if (!match) return '';
-			const year = match[3].length === 2 ? `20${match[3]}` : match[3];
-			const month = match[2].padStart(2, '0');
-			const day = match[1].padStart(2, '0');
-			const date = new Date(Number(year), Number(month) - 1, Number(day));
-			if (date.getFullYear() !== Number(year) || date.getMonth() !== Number(month) - 1 || date.getDate() !== Number(day)) return '';
-			return `${year}-${month}-${day}`;
+			
+			// Formato brasileiro: 01/09/2026, 1/9/26, 01-09-2026
+			const match = text.match(/^(\d{1,2})[\/\.-](\d{1,2})[\/\.-](\d{2}|\d{4})$/);
+			if (match) {
+				const year = match[3].length === 2 ? `20${match[3]}` : match[3];
+				const month = match[2].padStart(2, '0');
+				const day = match[1].padStart(2, '0');
+				return `${year}-${month}-${day}`;
+			}
+
+			// Formato textual: 01 de set. de 2026 ou 1 de setembro de 2026
+			const monthNames = {
+				'jan': '01', 'fev': '02', 'mar': '03', 'abr': '04', 'mai': '05', 'jun': '06',
+				'jul': '07', 'ago': '08', 'set': '09', 'out': '10', 'nov': '11', 'dez': '12'
+			};
+			const textNorm = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+			const monthMatch = textNorm.match(/^(\d{1,2})\s+de\s+([a-z]{3,})\.?\s+de\s+(\d{2,4})$/);
+			if (monthMatch) {
+				const d = monthMatch[1].padStart(2, '0');
+				const mPrefix = monthMatch[2].slice(0, 3);
+				const m = monthNames[mPrefix] || '01';
+				let y = monthMatch[3];
+				if (y.length === 2) y = '20' + y;
+				return `${y}-${m}-${d}`;
+			}
+
+			return '';
 		}
 
 		function parseImportedAmount(value) {
-			if (typeof value === 'number') return value;
+			if (typeof value === 'number' && Number.isFinite(value)) return value;
 			let normalized = String(value || '').trim().replace(/R\$\s?/gi, '').replace(/\s/g, '');
-			if (normalized.includes(',')) normalized = normalized.replace(/\./g, '').replace(',', '.');
+			if (!normalized) return 0;
+			if (normalized.includes(',') && normalized.includes('.')) {
+				if (normalized.lastIndexOf(',') > normalized.lastIndexOf('.')) {
+					normalized = normalized.replace(/\./g, '').replace(',', '.');
+				} else {
+					normalized = normalized.replace(/,/g, '');
+				}
+			} else if (normalized.includes(',')) {
+				normalized = normalized.replace(',', '.');
+			}
 			const amount = Number(normalized);
-			return Number.isFinite(amount) ? amount : NaN;
+			return Number.isFinite(amount) ? amount : 0;
 		}
 
 		function importSpreadsheet(file) {
 			const message = document.getElementById('message');
-			if (!window.XLSX) {
-				message.textContent = 'Não foi possível carregar o leitor de planilhas. Verifique sua conexão e tente novamente.';
-				return;
-			}
+			if (!file) return;
+
+			const processTableData = (rows, sheet) => {
+				if (!rows || rows.length < 2) {
+					message.textContent = 'A planilha está vazia ou não contém dados suficientes.';
+					return;
+				}
+				const headers = (rows.shift() || []).map(normalizeHeader);
+				const column = (names) => headers.findIndex((h) => names.some((n) => h.includes(n)));
+
+				const clientColumn = column(['cliente', 'nome', 'assinante', 'client', 'name']);
+				const usernameColumn = column(['usuario', 'nome de usuario', 'nome usuario', 'username', 'user', 'login']);
+				const passwordColumn = column(['senha', 'password', 'pass']);
+				const descriptionColumn = column(['descricao', 'descricao da cobranca', 'servico', 'plano', 'description', 'obs']);
+				const amountColumn = column(['valor', 'valor (r$)', 'valor r$', 'valor (rs)', 'amount', 'preco', 'preço']);
+				const entryDateColumn = column(['data de entrada', 'data entrada', 'entrada', 'inicio', 'cadastro', 'entry']);
+				const dueDateColumn = column(['data de vencimento', 'data vencimento', 'vencimento', 'validade', 'vence', 'due']);
+				const statusColumn = column(['status', 'situacao', 'situação', 'pago']);
+
+				if (clientColumn < 0) {
+					message.textContent = 'Não foi encontrada a coluna de Cliente ou Nome na planilha.';
+					return;
+				}
+
+				const imported = [];
+				let skipped = 0;
+
+				rows.forEach((row, rowIndex) => {
+					if (!row || !row.length) return;
+					const client = String(row[clientColumn] || '').trim();
+					if (!client) { skipped += 1; return; }
+
+					const rawAmount = amountColumn >= 0 ? row[amountColumn] : 0;
+					const amount = parseImportedAmount(rawAmount);
+
+					const rawDueDate = dueDateColumn >= 0 ? row[dueDateColumn] : '';
+					const rawEntryDate = entryDateColumn >= 0 ? row[entryDateColumn] : '';
+
+					let dueDate = parseImportedDate(rawDueDate);
+					if (!dueDate) {
+						dueDate = new Date().toISOString().slice(0, 10);
+					}
+					let entryDate = rawEntryDate ? parseImportedDate(rawEntryDate) : '';
+
+					let dueDateOriginal = String(rawDueDate || dueDate).trim();
+					let entryDateOriginal = String(rawEntryDate || entryDate).trim();
+
+					if (sheet && window.XLSX?.utils) {
+						try {
+							if (dueDateColumn >= 0) {
+								const cellDue = sheet[XLSX.utils.encode_cell({ r: rowIndex + 1, c: dueDateColumn })];
+								if (cellDue && cellDue.w) dueDateOriginal = cellDue.w;
+							}
+							if (entryDateColumn >= 0) {
+								const cellEntry = sheet[XLSX.utils.encode_cell({ r: rowIndex + 1, c: entryDateColumn })];
+								if (cellEntry && cellEntry.w) entryDateOriginal = cellEntry.w;
+							}
+						} catch (e) {}
+					}
+
+					const status = statusColumn >= 0 ? normalizeHeader(row[statusColumn]) : '';
+
+					imported.push({
+						id: `${Date.now()}-${imported.length}-${Math.random().toString(36).slice(2, 7)}`,
+						client,
+						username: usernameColumn < 0 ? '' : String(row[usernameColumn] || '').trim(),
+						password: passwordColumn < 0 ? '' : String(row[passwordColumn] || ''),
+						description: descriptionColumn < 0 ? 'Cobrança importada' : String(row[descriptionColumn] || 'Cobrança importada').trim(),
+						amount,
+						entryDate: entryDate || dueDate,
+						entryDateOriginal,
+						paid: ['pago', 'paga', 'recebido', 'recebida'].includes(status),
+						dueDate,
+						dueDateOriginal,
+					});
+				});
+
+				if (!imported.length) {
+					message.textContent = 'Nenhuma linha válida foi encontrada na planilha.';
+					return;
+				}
+
+				const importedClients = new Set(imported.map((charge) => charge.client.trim().toLocaleLowerCase('pt-BR')));
+				const previousByClient = new Map(charges
+					.filter((charge) => importedClients.has(charge.client.trim().toLocaleLowerCase('pt-BR')))
+					.map((charge) => [charge.client.trim().toLocaleLowerCase('pt-BR'), charge]));
+				charges = charges.filter((charge) => !importedClients.has(charge.client.trim().toLocaleLowerCase('pt-BR')));
+				imported.forEach((charge) => {
+					const previous = previousByClient.get(charge.client.trim().toLocaleLowerCase('pt-BR'));
+					if (previous) charge.id = previous.id;
+					charges.push(charge);
+				});
+
+				save();
+				render();
+				message.textContent = `${imported.length} cobrança${imported.length === 1 ? '' : 's'} importada${imported.length === 1 ? '' : 's'} ou atualizada${skipped ? `; ${skipped} linha${skipped === 1 ? '' : 's'} ignorada${skipped === 1 ? '' : 's'}.` : '.'}`;
+			};
+
 			const reader = new FileReader();
 			reader.onload = (event) => {
 				try {
-					const workbook = XLSX.read(event.target.result, { type: 'array', cellDates: false });
-					const sheet = workbook.Sheets[workbook.SheetNames[0]];
-					const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: true });
-					const displayedDate = (row, rowIndex, index) => {
-						if (index < 0) return '';
-						const cell = sheet[XLSX.utils.encode_cell({ r: rowIndex + 1, c: index })];
-						return cell ? (cell.w || XLSX.SSF.format(cell.z || 'General', cell.v)) : String(row[index] || '').trim();
-					};
-					const headers = (rows.shift() || []).map(normalizeHeader);
-					const column = (names) => headers.findIndex((header) => names.includes(header));
-					const clientColumn = column(['cliente', 'nome', 'nome do cliente']);
-					const usernameColumn = column(['usuario', 'nome de usuario', 'nome usuario', 'username']);
-					const passwordColumn = column(['senha', 'password']);
-					const descriptionColumn = column(['descricao', 'descricao da cobranca', 'servico']);
-					const amountColumn = column(['valor', 'valor (r$)', 'valor r$', 'valor (rs)']);
-					const entryDateColumn = column(['data de entrada', 'entrada']);
-					const dueDateColumn = column(['data de vencimento', 'vencimento']);
-					const statusColumn = column(['status']);
-					if (clientColumn < 0 || amountColumn < 0 || dueDateColumn < 0) {
-						message.textContent = 'A planilha precisa ter as colunas Cliente, Valor (R$) e Data de vencimento.';
-						return;
+					if (window.XLSX) {
+						const workbook = XLSX.read(event.target.result, { type: 'array', cellDates: false });
+						const sheet = workbook.Sheets[workbook.SheetNames[0]];
+						const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: true });
+						if (rows && rows.length > 1 && rows[0].length > 1) {
+							processTableData(rows, sheet);
+							return;
+						}
 					}
-					const imported = [];
-					let skipped = 0;
-					rows.forEach((row, rowIndex) => {
-						const client = String(row[clientColumn] || '').trim();
-						const amount = parseImportedAmount(row[amountColumn]);
-						const dueDate = parseImportedDate(row[dueDateColumn]);
-						const entryDateOriginal = displayedDate(row, rowIndex, entryDateColumn);
-						const dueDateOriginal = displayedDate(row, rowIndex, dueDateColumn);
-						if (!client || !Number.isFinite(amount) || amount <= 0 || !dueDate) { skipped += 1; return; }
-						const status = normalizeHeader(row[statusColumn]);
-						imported.push({
-							id: `${Date.now()}-${imported.length}`,
-							client,
-							username: usernameColumn < 0 ? '' : String(row[usernameColumn] || '').trim(),
-							password: passwordColumn < 0 ? '' : String(row[passwordColumn] || ''),
-							description: descriptionColumn < 0 ? 'Cobrança importada' : String(row[descriptionColumn] || 'Cobrança importada').trim(),
-							amount,
-							entryDate: entryDateColumn < 0 ? '' : parseImportedDate(row[entryDateColumn]),
-							entryDateOriginal,
-							paid: ['pago', 'paga', 'recebido', 'recebida'].includes(status),
-							dueDate,
-							dueDateOriginal,
-						});
-					});
-					if (!imported.length) { message.textContent = 'Nenhuma linha válida foi encontrada na planilha.'; return; }
-					const importedClients = new Set(imported.map((charge) => charge.client.trim().toLocaleLowerCase('pt-BR')));
-					const previousByClient = new Map(charges
-						.filter((charge) => importedClients.has(charge.client.trim().toLocaleLowerCase('pt-BR')))
-						.map((charge) => [charge.client.trim().toLocaleLowerCase('pt-BR'), charge]));
-					charges = charges.filter((charge) => !importedClients.has(charge.client.trim().toLocaleLowerCase('pt-BR')));
-					imported.forEach((charge) => {
-						const previous = previousByClient.get(charge.client.trim().toLocaleLowerCase('pt-BR'));
-						if (previous) charge.id = previous.id;
-						charges.push(charge);
-					});
-					save();
-					render();
-					message.textContent = `${imported.length} cobrança${imported.length === 1 ? '' : 's'} importada${imported.length === 1 ? '' : 's'} ou atualizada${skipped ? `; ${skipped} linha${skipped === 1 ? '' : 's'} ignorada${skipped === 1 ? '' : 's'}.` : '.'}`;
-				} catch (error) {
-					message.textContent = 'Não foi possível ler esta planilha. Use um arquivo Excel ou CSV válido.';
+				} catch (err) {
+					console.warn('Tentando leitor CSV alternativo...', err);
 				}
+
+				// Leitor alternativo para arquivos CSV em texto
+				const textReader = new FileReader();
+				textReader.onload = (e) => {
+					try {
+						const text = e.target.result;
+						const lines = text.trim().split(/\r?\n/).map((line) => {
+							const sep = line.includes(';') ? ';' : ',';
+							return line.split(sep).map((cell) => cell.replace(/^"|"$/g, '').trim());
+						});
+						processTableData(lines, null);
+					} catch (error) {
+						message.textContent = 'Não foi possível ler esta planilha. Verifique se o arquivo está correto.';
+					}
+				};
+				textReader.readAsText(file, 'utf-8');
 			};
 			reader.readAsArrayBuffer(file);
 		}
@@ -1557,14 +1653,37 @@
 			const client = document.getElementById('client').value.trim();
 			const username = document.getElementById('username').value.trim();
 			const password = document.getElementById('password').value;
-			const description = document.getElementById('description').value.trim();
-			const amount = Number(document.getElementById('amount').value);
-			const entryDate = document.getElementById('entry-date').value;
-			const dueDate = document.getElementById('due-date').value;
+			const description = document.getElementById('description').value.trim() || 'P2P';
+			const rawAmount = document.getElementById('amount').value;
+			const amount = Number(rawAmount) || 0;
+			const entryDate = document.getElementById('entry-date').value || new Date().toISOString().slice(0, 10);
+			const dueDate = document.getElementById('due-date').value || new Date().toISOString().slice(0, 10);
 			const message = document.getElementById('message');
-			if (!client || !username || !password || !description || !entryDate || !dueDate || !Number.isFinite(amount) || amount <= 0) { message.textContent = 'Preencha todos os campos com um valor válido.'; return; }
-			charges.push({ id: Date.now().toString(), client, username, password, description, amount, entryDate, dueDate, paid: false });
-			save(); event.target.reset(); document.getElementById('entry-date').value = new Date().toISOString().slice(0, 10); document.getElementById('due-date').value = new Date().toISOString().slice(0, 10); message.textContent = ''; render();
+			if (!client) {
+				message.textContent = 'Por favor, informe o nome do cliente.';
+				return;
+			}
+			const newCharge = {
+				id: `charge-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+				client,
+				username,
+				password,
+				description,
+				amount,
+				entryDate,
+				entryDateOriginal: entryDate,
+				dueDate,
+				dueDateOriginal: dueDate,
+				paid: false
+			};
+			charges.unshift(newCharge);
+			save();
+			event.target.reset();
+			document.getElementById('entry-date').value = new Date().toISOString().slice(0, 10);
+			document.getElementById('due-date').value = new Date().toISOString().slice(0, 10);
+			message.textContent = `Cliente ${client} adicionado com sucesso!`;
+			setTimeout(() => { if (message.textContent.includes('adicionado com sucesso')) message.textContent = ''; }, 4000);
+			render();
 		});
 
 		document.querySelector('.filters').addEventListener('click', (event) => {
