@@ -1,6 +1,6 @@
 const initialDefaultCharges = [
   {
-    "id": "restored-1",
+    "id": "charge-orig-1",
     "client": "Renata Fiel",
     "username": "S313S2770F",
     "password": "7070858",
@@ -13,7 +13,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-2",
+    "id": "charge-orig-2",
     "client": "Henrique Utilidades",
     "username": "e200M2924u",
     "password": "2046575",
@@ -26,7 +26,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-3",
+    "id": "charge-orig-3",
     "client": "Edjone Machado",
     "username": "M486Z5749f",
     "password": "7172595",
@@ -39,7 +39,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-4",
+    "id": "charge-orig-4",
     "client": "Luis Michel",
     "username": "E281c5310M",
     "password": "4881915",
@@ -52,7 +52,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-5",
+    "id": "charge-orig-5",
     "client": "Leornardo Leindecker",
     "username": "E700m7195T",
     "password": "5251302",
@@ -65,7 +65,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-6",
+    "id": "charge-orig-6",
     "client": "Fabio Rosa",
     "username": "n245f7245n",
     "password": "4347283",
@@ -78,7 +78,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-7",
+    "id": "charge-orig-7",
     "client": "Marlon",
     "username": "h106S2919X",
     "password": "5650572",
@@ -91,7 +91,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-8",
+    "id": "charge-orig-8",
     "client": "Cimek",
     "username": "F838c8054Z",
     "password": "4942199",
@@ -104,7 +104,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-9",
+    "id": "charge-orig-9",
     "client": "Isabela Meneguzzi",
     "username": "w599b6478r",
     "password": "3598323",
@@ -117,7 +117,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-10",
+    "id": "charge-orig-10",
     "client": "Parreira",
     "username": "Z374F6995W",
     "password": "6926145",
@@ -130,7 +130,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-11",
+    "id": "charge-orig-11",
     "client": "Claudio e Gabriela",
     "username": "H684d2365X",
     "password": "3145132",
@@ -143,7 +143,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-12",
+    "id": "charge-orig-12",
     "client": "Renato Qualidade",
     "username": "Q578Y8900w",
     "password": "6512789",
@@ -156,7 +156,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-13",
+    "id": "charge-orig-13",
     "client": "Max",
     "username": "J474A4414h",
     "password": "6386421",
@@ -169,7 +169,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-14",
+    "id": "charge-orig-14",
     "client": "Mauricio Gonçalves",
     "username": "J678F6596V",
     "password": "2586141",
@@ -182,7 +182,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-15",
+    "id": "charge-orig-15",
     "client": "Fabiano Hack",
     "username": "y564C6032J",
     "password": "4406474",
@@ -195,7 +195,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-16",
+    "id": "charge-orig-16",
     "client": "Jeferson - 2",
     "username": "P386S4300n",
     "password": "5218122",
@@ -208,7 +208,7 @@ const initialDefaultCharges = [
     "paid": true
   },
   {
-    "id": "restored-17",
+    "id": "charge-orig-17",
     "client": "Elisabete",
     "username": "H327X3530v",
     "password": "6088602",
@@ -221,7 +221,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-18",
+    "id": "charge-orig-18",
     "client": "Giuliana Salin",
     "username": "x557A4070Z",
     "password": "8885260",
@@ -234,7 +234,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-19",
+    "id": "charge-orig-19",
     "client": "Guilherme Vargas",
     "username": "t914V3470S",
     "password": "1211538",
@@ -247,7 +247,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-20",
+    "id": "charge-orig-20",
     "client": "Patrícia Parreira",
     "username": "Y941s3692a",
     "password": "8311595",
@@ -260,7 +260,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-21",
+    "id": "charge-orig-21",
     "client": "Jeferson - 3",
     "username": "j605f3018j",
     "password": "7349938",
@@ -273,7 +273,7 @@ const initialDefaultCharges = [
     "paid": true
   },
   {
-    "id": "restored-22",
+    "id": "charge-orig-22",
     "client": "Robinson Pai",
     "username": "y546W8881d",
     "password": "5888653",
@@ -286,7 +286,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-23",
+    "id": "charge-orig-23",
     "client": "Pedro Siqueira",
     "username": "C270W2733E",
     "password": "1155218",
@@ -299,7 +299,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-24",
+    "id": "charge-orig-24",
     "client": "Jeferson - 1",
     "username": "F635q6447g",
     "password": "2188179",
@@ -312,7 +312,7 @@ const initialDefaultCharges = [
     "paid": true
   },
   {
-    "id": "restored-25",
+    "id": "charge-orig-25",
     "client": "Andressa - 1",
     "username": "679887425xtvs",
     "password": "z863E5659G",
@@ -325,7 +325,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-26",
+    "id": "charge-orig-26",
     "client": "Luis Michel - 2",
     "username": "s325b7648h",
     "password": "5403142",
@@ -338,7 +338,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-27",
+    "id": "charge-orig-27",
     "client": "Eder Cabelo",
     "username": "743251687xtvs",
     "password": "V614M5645b",
@@ -351,7 +351,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-28",
+    "id": "charge-orig-28",
     "client": "Gringo",
     "username": "235017xtvs",
     "password": "A979w1881Z",
@@ -364,7 +364,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-29",
+    "id": "charge-orig-29",
     "client": "Robinson",
     "username": "331064395xtvs",
     "password": "C220K6034f",
@@ -377,7 +377,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-30",
+    "id": "charge-orig-30",
     "client": "Jonathan Cruz",
     "username": "436248205xtvs",
     "password": "P771F3770z",
@@ -390,7 +390,7 @@ const initialDefaultCharges = [
     "paid": true
   },
   {
-    "id": "restored-31",
+    "id": "charge-orig-31",
     "client": "Mateus Borba",
     "username": "239313348xtvs",
     "password": "R230j2291m",
@@ -403,7 +403,7 @@ const initialDefaultCharges = [
     "paid": true
   },
   {
-    "id": "restored-32",
+    "id": "charge-orig-32",
     "client": "Marcos Vinicius",
     "username": "w362W8416D",
     "password": "4976838",
@@ -416,7 +416,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-33",
+    "id": "charge-orig-33",
     "client": "Derqui",
     "username": "550065729xtvs",
     "password": "v976t2982h",
@@ -429,7 +429,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-34",
+    "id": "charge-orig-34",
     "client": "José Henrique",
     "username": "311506163xtvs",
     "password": "w923h8173A",
@@ -442,7 +442,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-35",
+    "id": "charge-orig-35",
     "client": "Eduardo Sarmento",
     "username": "692790117xtvs",
     "password": "A787E9086p",
@@ -455,7 +455,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-36",
+    "id": "charge-orig-36",
     "client": "Daniel Teixeira",
     "username": "56129080xtvs",
     "password": "K484K2151R",
@@ -468,7 +468,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-37",
+    "id": "charge-orig-37",
     "client": "Fabiana Nunes",
     "username": "803309516xtvs",
     "password": "P283c2666h",
@@ -481,7 +481,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-38",
+    "id": "charge-orig-38",
     "client": "Diego Mazutti",
     "username": "546026273xtvs",
     "password": "H889t5833E",
@@ -494,7 +494,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-39",
+    "id": "charge-orig-39",
     "client": "Fatima - Nelson",
     "username": "999583814xtvs",
     "password": "T132z5904j",
@@ -507,7 +507,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-40",
+    "id": "charge-orig-40",
     "client": "Bruno Winck",
     "username": "460373779xtvs",
     "password": "W266q8606b",
@@ -520,7 +520,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-41",
+    "id": "charge-orig-41",
     "client": "Ismael Colombo",
     "username": "779762288xtvs",
     "password": "R182C4590Z",
@@ -533,7 +533,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-42",
+    "id": "charge-orig-42",
     "client": "Rafael Oliveira",
     "username": "486801954xtvs",
     "password": "w820y1094P",
@@ -546,7 +546,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-43",
+    "id": "charge-orig-43",
     "client": "Sansung",
     "username": "831694065xtvs",
     "password": "v570f2707v",
@@ -559,7 +559,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-44",
+    "id": "charge-orig-44",
     "client": "Paulo Bilhar",
     "username": "744647336xtvs",
     "password": "q170q2308Y",
@@ -572,7 +572,7 @@ const initialDefaultCharges = [
     "paid": true
   },
   {
-    "id": "restored-45",
+    "id": "charge-orig-45",
     "client": "Gago",
     "username": "a999D3180P",
     "password": "7841274",
@@ -585,7 +585,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-46",
+    "id": "charge-orig-46",
     "client": "Luan Tomazeli",
     "username": "834457957xtvs",
     "password": "D992d8193n",
@@ -598,7 +598,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-47",
+    "id": "charge-orig-47",
     "client": "Everson",
     "username": "502219363xtvs",
     "password": "s797S9314V",
@@ -611,7 +611,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-48",
+    "id": "charge-orig-48",
     "client": "Mateus - Pai",
     "username": "215591949xtvs",
     "password": "u951E8667h",
@@ -624,7 +624,7 @@ const initialDefaultCharges = [
     "paid": true
   },
   {
-    "id": "restored-49",
+    "id": "charge-orig-49",
     "client": "Lurdes",
     "username": "144820746xtvs",
     "password": "m504q3123v",
@@ -637,7 +637,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-50",
+    "id": "charge-orig-50",
     "client": "Tobias",
     "username": "u383t1062S",
     "password": "4914540",
@@ -650,7 +650,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-51",
+    "id": "charge-orig-51",
     "client": "Sergio Fontana",
     "username": "259783161xtvs",
     "password": "u545X7822m",
@@ -663,7 +663,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-52",
+    "id": "charge-orig-52",
     "client": "Henrique Utilidades",
     "username": "542527651xtvs",
     "password": "q561d5728F",
@@ -676,7 +676,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-53",
+    "id": "charge-orig-53",
     "client": "Volmar Maciel",
     "username": "407731206xtvs",
     "password": "b794s2294j",
@@ -689,7 +689,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-54",
+    "id": "charge-orig-54",
     "client": "Geferson Antunes",
     "username": "423448442xtvs",
     "password": "x196S7489Q",
@@ -702,7 +702,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-55",
+    "id": "charge-orig-55",
     "client": "Geraldo Rodrigues",
     "username": "674308223xtvs",
     "password": "V861w4170E",
@@ -715,7 +715,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-56",
+    "id": "charge-orig-56",
     "client": "Marcio Graff",
     "username": "123567825xtvs",
     "password": "B721k8697F",
@@ -728,7 +728,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-57",
+    "id": "charge-orig-57",
     "client": "LG Quarto",
     "username": "452792067xtvs",
     "password": "r459w8324B",
@@ -741,7 +741,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-58",
+    "id": "charge-orig-58",
     "client": "Fernando Carvalho",
     "username": "Fernando@Carvalho",
     "password": "M37120100mm",
@@ -754,7 +754,7 @@ const initialDefaultCharges = [
     "paid": false
   },
   {
-    "id": "restored-59",
+    "id": "charge-orig-59",
     "client": "Dania",
     "username": "Dania@2026",
     "password": "M37120100mm",
