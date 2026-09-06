@@ -350,7 +350,8 @@
 					charges = data;
 					localStorage.setItem(storageKey, JSON.stringify(charges));
 					render();
-				} else if (charges.length > 0 && !silent) {
+				} else if (charges.length > 0) {
+					// Envia os dados locais para a nuvem
 					await supabaseClient.from('charges').upsert(charges);
 				}
 			} catch (err) {
@@ -360,8 +361,10 @@
 
 		function save() {
 			localStorage.setItem(storageKey, JSON.stringify(charges));
-			if (supabaseClient && charges.length > 0) {
-				supabaseClient.from('charges').upsert(charges).catch((err) => console.warn('Erro ao salvar na nuvem:', err));
+			if (supabaseClient) {
+				if (charges.length > 0) {
+					supabaseClient.from('charges').upsert(charges).catch((err) => console.warn('Erro ao salvar na nuvem:', err));
+				}
 			}
 		}
 		function sum(items) { return items.reduce((total, item) => total + item.amount, 0); }
