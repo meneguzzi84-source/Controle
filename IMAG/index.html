@@ -1151,11 +1151,15 @@
 			}
 		}
 
-		async function save() {
+		async function save(item) {
 			localStorage.setItem(storageKey, JSON.stringify(charges));
-			if (supabaseClient && charges.length > 0) {
+			if (supabaseClient) {
 				try {
-					await supabaseClient.from('charges').upsert(charges);
+					if (item) {
+						await supabaseClient.from('charges').upsert(item);
+					} else if (charges.length > 0) {
+						await supabaseClient.from('charges').upsert(charges);
+					}
 				} catch (err) {
 					console.warn('Erro ao salvar na nuvem:', err);
 				}
