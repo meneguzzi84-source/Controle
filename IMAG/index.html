@@ -162,7 +162,7 @@
 				<label>Senha<input id="password" type="text" autocomplete="new-password" placeholder="Senha de acesso"></label>
 				<label>Descrição<input id="description" placeholder="Ex: Projeto de site ou P2P"></label>
 				<label>Plano de renovação<select id="renewal-plan"><option value="">Valor personalizado</option></select></label>
-				<label>Valor<input id="amount" required type="number" min="0" step="0.01" placeholder="0,00"></label>
+				<label>Valor<input id="amount" type="number" min="0" step="0.01" placeholder="0,00"></label>
 				<label>Data de entrada<input id="entry-date" type="date"></label>
 				<label>Vencimento<input id="due-date" required type="date"></label>
 				<button class="primary" type="submit">Adicionar</button>
@@ -1113,6 +1113,25 @@
 			if (changed) save();
 		}
 
+		function getStatus(charge) {
+			if (charge.paid) return 'paid';
+			return dateValue(charge.dueDate) < today ? 'overdue' : 'pending';
+		}
+
+		function getCountdown(charge) {
+			if (getStatus(charge) === 'paid') {
+				const cycleDays = Math.max(0, Math.round((dateValue(charge.dueDate) - dateValue(charge.entryDate || charge.dueDate)) / 86400000));
+				const renewalText = `Período cadastrado: ${cycleDays} dia${cycleDays === 1 ? '' : 's'}`;
+				return { text: 'Pagamento recebido', renewalText, type: 'paid', days: null };
+			}
+			const days = Math.round((dateValue(charge.dueDate) - today) / 86400000);
+			if (days < 0) return { text: `${Math.abs(days)} dia${days === -1 ? '' : 's'} em atraso`, type: 'overdue', days };
+			if (days === 0) return { text: 'Vence hoje', type: 'warning', days };
+			return { text: `${days} dia${days === 1 ? '' : 's'} restante${days === 1 ? '' : 's'}`, type: days <= 7 ? 'warning' : 'paid', days };
+		}
+
+		reopenUpcomingCharges();
+
 		async function loadCloudCharges(silent = false) {
 			if (!supabaseClient) return;
 			try {
@@ -1132,10 +1151,14 @@
 			}
 		}
 
-		function save() {
+		async function save() {
 			localStorage.setItem(storageKey, JSON.stringify(charges));
 			if (supabaseClient && charges.length > 0) {
-				supabaseClient.from('charges').upsert(charges).catch((err) => console.warn('Erro ao salvar na nuvem:', err));
+				try {
+					await supabaseClient.from('charges').upsert(charges);
+				} catch (err) {
+					console.warn('Erro ao salvar na nuvem:', err);
+				}
 			}
 		}
 		function sum(items) { return items.reduce((total, item) => total + item.amount, 0); }
@@ -1810,7 +1833,7 @@
 				const [removed] = charges.splice(index, 1);
 				localStorage.setItem(storageKey, JSON.stringify(charges));
 				if (supabaseClient && removed) {
-					supabaseClient.from('charges').delete().eq('id', removed.id).catch(() => {});
+					try { supabaseClient.from('charges').delete().eq('id', removed.id); } catch (e) {}
 				}
 				render();
 				return;
