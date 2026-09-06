@@ -1,0 +1,1019 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DIEMERMAQ Assistência Técnica</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #eaf3ed;
+        --muted: #a8b8af;
+        --line: #34433b;
+        --green: #6ed89a;
+        --soft: #183d2a;
+        --paper: #17201b;
+        --canvas: #0d1410;
+        font-family: Arial, sans-serif;
+        color: var(--ink);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background:
+          linear-gradient(rgba(7, 12, 9, 0.78), rgba(7, 12, 9, 0.78)),
+          url("lavadora.jpg") center / cover fixed no-repeat;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .app {
+        max-width: 1180px;
+        margin: auto;
+        padding: 32px 24px;
+      }
+      .topbar,
+      .list-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+      }
+      .topbar {
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        margin: 0 0 5px;
+        color: var(--green);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+      h1,
+      h2,
+      h3 {
+        text-transform: uppercase;
+      }
+      h1 {
+        margin-bottom: 0;
+        font-size: 1.65rem;
+      }
+      .company-title {
+        margin: 0;
+      }
+      .company-subtitle {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .company-notices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .budget-validity {
+        margin: 0;
+        border: 1px solid #528668;
+        border-radius: 3px;
+        background: var(--soft);
+        color: var(--green);
+        padding: 4px 7px;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+      .contact-phones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 8px 0 0;
+      }
+      .contact-phones a {
+        color: var(--green);
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .contact-phones a:hover {
+        text-decoration: underline;
+      }
+      h2 {
+        margin-bottom: 0;
+        font-size: 1.08rem;
+      }
+      .today {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin: 24px 0;
+      }
+      .summary article {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--paper);
+      }
+      .summary span {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .summary strong {
+        display: block;
+        margin-top: 9px;
+        color: var(--green);
+        font-size: 1.8rem;
+      }
+      .content {
+        display: grid;
+        grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.4fr);
+        gap: 18px;
+        align-items: start;
+      }
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--paper);
+      }
+      .form-panel {
+        padding: 20px;
+      }
+      .heading {
+        margin-bottom: 18px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+      }
+      label {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #43554a;
+        border-radius: 4px;
+        color: var(--ink);
+        background: #101813;
+      }
+      textarea {
+        resize: vertical;
+      }
+      .service-type-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 7px;
+      }
+      .service-type-options label {
+        display: block;
+        border: 1px solid #528668;
+        border-radius: 3px;
+        color: var(--green);
+        cursor: pointer;
+        padding: 4px 6px;
+        font-size: 0.68rem;
+      }
+      .service-type-options input {
+        position: absolute;
+        opacity: 0;
+      }
+      .service-type-options label:has(input:checked) {
+        background: var(--soft);
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: 2px solid #39684d;
+        border-color: var(--green);
+      }
+      .primary {
+        width: 100%;
+        margin-top: 16px;
+        padding: 11px;
+        border: 0;
+        border-radius: 4px;
+        background: var(--green);
+        color: #092315;
+        font-weight: 700;
+      }
+      .primary:hover {
+        background: #49b976;
+      }
+      .list-head {
+        padding: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .list-head input {
+        max-width: 245px;
+      }
+      .orders {
+        display: grid;
+      }
+      .order {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .order:last-child {
+        border-bottom: 0;
+      }
+      .order h3 {
+        margin-bottom: 5px;
+        font-size: 1rem;
+      }
+      .edit-client-button {
+        margin-left: 6px;
+        border: 1px solid #528668;
+        border-radius: 3px;
+        background: #101813;
+        color: var(--green);
+        padding: 2px 5px;
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: none;
+        vertical-align: middle;
+      }
+      .edit-client-button:hover {
+        background: var(--soft);
+      }
+      .machine,
+      .problem,
+      .meta {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.83rem;
+        line-height: 1.45;
+      }
+      .machine {
+        color: var(--green);
+        font-weight: 700;
+      }
+      .problem {
+        margin-top: 6px;
+      }
+      .meta {
+        margin-top: 10px;
+      }
+      .order-notices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+      .order-notice {
+        margin: 0;
+        border: 1px solid #528668;
+        border-radius: 3px;
+        background: var(--soft);
+        color: var(--green);
+        padding: 4px 6px;
+        font-size: 0.68rem;
+        font-weight: 700;
+      }
+      .order-photo {
+        width: 76px;
+        height: 76px;
+        margin-top: 12px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        object-fit: cover;
+      }
+      .photo-button {
+        margin-top: 8px;
+        border: 1px solid #4d82a5;
+        border-radius: 3px;
+        background: #101813;
+        color: #91caef;
+        padding: 5px 7px;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+      .photo-button:hover {
+        background: #162e3b;
+      }
+      .order-actions {
+        display: grid;
+        justify-items: end;
+        gap: 8px;
+      }
+      .finish-button {
+        border: 1px solid #528668;
+        border-radius: 3px;
+        background: #101813;
+        color: var(--green);
+        padding: 6px 8px;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+      .finish-button:hover {
+        background: var(--soft);
+      }
+      .share-button {
+        border: 1px solid #4d82a5;
+        border-radius: 3px;
+        background: #101813;
+        color: #91caef;
+        padding: 6px 8px;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+      .share-button:hover {
+        background: #162e3b;
+      }
+      .status {
+        align-self: start;
+        border-radius: 3px;
+        padding: 5px 7px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .open {
+        background: #513f13;
+        color: #f1cd73;
+      }
+      .done {
+        background: var(--soft);
+        color: var(--green);
+      }
+      .empty {
+        padding: 48px 20px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.9rem;
+      }
+      .history-panel {
+        margin-top: 18px;
+      }
+      .chart-panel {
+        margin-top: 18px;
+      }
+      .monthly-chart {
+        display: grid;
+        gap: 14px;
+        padding: 20px;
+      }
+      .chart-row {
+        display: grid;
+        grid-template-columns: 100px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
+      }
+      .chart-month,
+      .chart-value {
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .chart-month {
+        color: var(--muted);
+        text-transform: capitalize;
+      }
+      .chart-value {
+        color: var(--green);
+        text-align: right;
+      }
+      .chart-track {
+        height: 14px;
+        overflow: hidden;
+        border-radius: 3px;
+        background: #101813;
+      }
+      .chart-bar {
+        height: 100%;
+        min-width: 4px;
+        border-radius: 3px;
+        background: var(--green);
+      }
+      .history-list {
+        display: grid;
+      }
+      .history-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .history-item:last-child {
+        border-bottom: 0;
+      }
+      .history-item h3 {
+        margin-bottom: 4px;
+        font-size: 0.95rem;
+      }
+      .warranty-status {
+        margin: 8px 0 0;
+        color: var(--green);
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+      .warranty-status.expired {
+        color: #f49a9a;
+      }
+      .received {
+        align-self: center;
+        color: var(--green);
+        font-size: 0.96rem;
+        font-weight: 700;
+        text-align: right;
+      }
+      .received small {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 400;
+      }
+      .edit-received-button,
+      .delete-history-button {
+        margin-top: 8px;
+        border-radius: 3px;
+        background: #101813;
+        padding: 5px 7px;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+      .edit-received-button {
+        border: 1px solid #528668;
+        color: var(--green);
+      }
+      .edit-received-button:hover {
+        background: var(--soft);
+      }
+      .delete-history-button {
+        border: 1px solid #9b4b4b;
+        color: #f49a9a;
+      }
+      .delete-history-button:hover {
+        background: #482022;
+      }
+      @media (max-width: 850px) {
+        .content {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 540px) {
+        .app {
+          padding: 20px 14px;
+        }
+        .topbar,
+        .list-head {
+          align-items: start;
+          flex-direction: column;
+        }
+        .summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+        }
+        .summary article {
+          padding: 14px;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .wide {
+          grid-column: auto;
+        }
+        .list-head input {
+          max-width: none;
+        }
+        .today {
+          font-size: 0.78rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div>
+          <div class="company-title"><h1>DIEMERMAQ</h1></div>
+          <p class="company-subtitle">Assistência técnica</p>
+          <p class="contact-phones">
+            <a href="tel:+5551983596588">(51) 98359-6588</a>
+            <a href="tel:+5551997487556">(51) 99748-7556</a>
+          </p>
+        </div>
+        <p id="today" class="today"></p>
+      </header>
+      <section class="summary">
+        <article>
+          <span>Em aberto</span><strong id="open-total">0</strong>
+        </article>
+        <article>
+          <span>Finalizadas</span><strong id="done-total">0</strong>
+        </article>
+        <article>
+          <span>Valores recebidos</span
+          ><strong id="received-total">R$ 0,00</strong>
+        </article>
+      </section>
+      <section class="content">
+        <form id="order-form" class="panel form-panel">
+          <div class="heading">
+            <p class="eyebrow">Nova ordem</p>
+            <h2>Registrar atendimento</h2>
+          </div>
+          <div class="form-grid">
+            <label
+              >Cliente<input
+                id="client"
+                required
+                placeholder="Nome do cliente" /></label
+            ><label
+              >Telefone<input id="phone" required placeholder="(00) 00000-0000"
+            /></label>
+            <label class="wide"
+              >Endereço<input
+                id="address"
+                required
+                placeholder="Rua, número, bairro e cidade"
+            /></label>
+            <label
+              >Marca<input
+                id="brand"
+                required
+                placeholder="Ex.: Electrolux" /></label
+            ><label
+              >Modelo<input id="model" required placeholder="Ex.: LAC12"
+            /></label>
+            <label class="wide"
+              >Defeito informado<textarea
+                id="problem"
+                required
+                rows="3"
+                placeholder="Descreva o problema da máquina"
+              ></textarea>
+            </label>
+            <label
+              >Peça a ser trocada<input
+                id="part"
+                placeholder="Ex.: Bomba de drenagem" /></label
+            ><label
+              >Valor do orçamento<input
+                id="estimate"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0,00"
+              />
+              <span class="service-type-options">
+                <label><input type="radio" name="service-type" value="Orçamento" checked />Orçamento</label>
+                <label><input type="radio" name="service-type" value="Manutenção Preventiva" />Manutenção Preventiva</label>
+              
+                <label><input type="radio" name="service-type" value="Manutenção Corretiva" />Manutenção Corretiva</label>
+              </span>
+            </label>
+            <label class="wide"
+              >Foto da máquina ou do defeito<input
+                id="photo"
+                type="file"
+                accept="image/*"
+                capture="environment"
+            /></label>
+            <label
+              >Status<select id="status">
+                <option value="open">Em aberto</option>
+                <option value="done">Finalizada</option>
+              </select></label
+            >
+          </div>
+          <button type="submit" class="primary">Salvar ordem</button>
+        </form>
+        <section class="panel">
+          <div class="list-head">
+            <div class="heading">
+              <p class="eyebrow">Acompanhamento</p>
+              <h2>Ordens em andamento</h2>
+            </div>
+            <input
+              id="search"
+              type="search"
+              placeholder="Buscar cliente ou máquina"
+              aria-label="Buscar ordem"
+            />
+          </div>
+          <div id="orders" class="orders"></div>
+        </section>
+      </section>
+      <section class="panel history-panel">
+        <div class="list-head">
+          <div class="heading">
+            <p class="eyebrow">Histórico</p>
+            <h2>Reparos finalizados</h2>
+          </div>
+          <input
+            id="history-search"
+            type="search"
+            inputmode="numeric"
+            placeholder="Buscar pelo número da OS"
+            aria-label="Buscar ordem finalizada pelo número da OS"
+          />
+        </div>
+        <div id="history" class="history-list"></div>
+      </section>
+      <section class="panel chart-panel">
+        <div class="list-head">
+          <div class="heading">
+            <p class="eyebrow">Financeiro</p>
+            <h2>Valores recebidos por mês</h2>
+          </div>
+        </div>
+        <div id="monthly-chart" class="monthly-chart"></div>
+      </section>
+    </main>
+    <input id="replace-photo" type="file" accept="image/*" hidden />
+    <script>
+      const storageKey = "ordensServicoLavadoras";
+      let orders = (JSON.parse(localStorage.getItem(storageKey)) || []).map(
+        (order) => ({
+          ...order,
+          id: order.id || crypto.randomUUID(),
+          part: order.part ?? order.technician ?? "",
+          status: order.status === "repair" ? "open" : order.status,
+          completedAt:
+            order.status === "done"
+              ? order.completedAt || new Date().toISOString()
+              : order.completedAt,
+          receivedAmount:
+            order.status === "done"
+              ? order.receivedAmount ?? order.estimate
+              : order.receivedAmount,
+        }),
+      );
+      const labels = { open: "Em aberto", done: "Finalizada" };
+      const money = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+      const form = document.getElementById("order-form");
+      const ordersElement = document.getElementById("orders");
+      const historyElement = document.getElementById("history");
+      const monthlyChartElement = document.getElementById("monthly-chart");
+      document.getElementById("today").textContent = new Intl.DateTimeFormat(
+        "pt-BR",
+        { day: "2-digit", month: "long", year: "numeric" },
+      ).format(new Date());
+      function escapeHtml(value) {
+        const element = document.createElement("div");
+        element.textContent = value;
+        return element.innerHTML;
+      }
+      function save() {
+        localStorage.setItem(storageKey, JSON.stringify(orders));
+      }
+      function warrantyStatus(completedAt) {
+        const completedDate = new Date(completedAt);
+        const expirationDate = new Date(completedDate);
+        expirationDate.setDate(expirationDate.getDate() + 90);
+        const daysRemaining = Math.ceil(
+          (expirationDate - new Date()) / (1000 * 60 * 60 * 24),
+        );
+
+        return {
+          expiresOn: new Intl.DateTimeFormat("pt-BR").format(expirationDate),
+          daysRemaining,
+          expired: daysRemaining < 0,
+        };
+      }
+      function orderShareText(order) {
+        return `DIEMERMAQ Assistência Técnica\nOrdem de Serviço #${order.number}\n\nCliente: ${order.client}\nTelefone: ${order.phone}\nEndereço: ${order.address}\nMáquina: ${order.brand} ${order.model}\nDefeito informado: ${order.problem}\nPeça a ser trocada: ${order.part || "Não definida"}\nOrçamento: ${order.estimate ? money.format(order.estimate) : "A definir"}\n\nOrçamento válido por 30 dias.\nGarantia de 90 dias após a execução.`;
+      }
+      function renderMonthlyChart(completedOrders) {
+        const totalsByMonth = completedOrders.reduce((totals, order) => {
+          const month = order.completedAt.slice(0, 7);
+          totals[month] = (totals[month] || 0) + (order.receivedAmount || 0);
+          return totals;
+        }, {});
+        const months = Object.keys(totalsByMonth).sort();
+
+        if (!months.length) {
+          monthlyChartElement.innerHTML =
+            '<p class="empty">Nenhum valor recebido para exibir.</p>';
+          return;
+        }
+
+        const highestTotal = Math.max(...Object.values(totalsByMonth));
+        monthlyChartElement.innerHTML = months
+          .map((month) => {
+            const total = totalsByMonth[month];
+            const width = highestTotal ? (total / highestTotal) * 100 : 0;
+            const label = new Intl.DateTimeFormat("pt-BR", {
+              month: "long",
+              year: "numeric",
+            }).format(new Date(`${month}-01T12:00:00`));
+            return `<div class="chart-row"><span class="chart-month">${label}</span><div class="chart-track"><div class="chart-bar" style="width: ${width}%"></div></div><span class="chart-value">${money.format(total)}</span></div>`;
+          })
+          .join("");
+      }
+      function generateOrderNumber() {
+        let number;
+        do {
+          number = String(Math.floor(100000 + Math.random() * 900000));
+        } while (orders.some((order) => order.number === number));
+        return number;
+      }
+      orders = orders.map((order) => ({
+        ...order,
+        number: order.number || generateOrderNumber(),
+      }));
+      function compressPhoto(file) {
+        return new Promise((resolve, reject) => {
+          if (!file) {
+            resolve("");
+            return;
+          }
+          const reader = new FileReader();
+          reader.onerror = () =>
+            reject(new Error("Não foi possível ler a foto."));
+          reader.onload = () => {
+            const image = new Image();
+            image.onerror = () =>
+              reject(new Error("Não foi possível processar a foto."));
+            image.onload = () => {
+              const scale = Math.min(
+                1,
+                640 / Math.max(image.width, image.height),
+              );
+              const canvas = document.createElement("canvas");
+              canvas.width = Math.round(image.width * scale);
+              canvas.height = Math.round(image.height * scale);
+              canvas
+                .getContext("2d")
+                .drawImage(image, 0, 0, canvas.width, canvas.height);
+              resolve(canvas.toDataURL("image/jpeg", 0.7));
+            };
+            image.src = reader.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+      save();
+      function render() {
+        const term = document
+          .getElementById("search")
+          .value.trim()
+          .toLocaleLowerCase("pt-BR");
+        const filtered = orders.filter(
+          (order) =>
+            order.status !== "done" &&
+            `${order.client} ${order.brand} ${order.model}`
+              .toLocaleLowerCase("pt-BR")
+              .includes(term),
+        );
+        document.getElementById("open-total").textContent = orders.filter(
+          (order) => order.status === "open",
+        ).length;
+        document.getElementById("done-total").textContent = orders.filter(
+          (order) => order.status === "done",
+        ).length;
+        document.getElementById("received-total").textContent = money.format(
+          orders
+            .filter((order) => order.status === "done")
+            .reduce((total, order) => total + (order.receivedAmount || 0), 0),
+        );
+        ordersElement.innerHTML = filtered.length
+          ? filtered
+              .map(
+                (order) =>
+                  `<article class="order"><div><p class="eyebrow">OS #${order.number}</p><h3>${escapeHtml(order.client)}<button class="edit-client-button" type="button" data-edit-client-id="${order.id}">Editar</button></h3><p class="machine">${escapeHtml(order.brand)} ${escapeHtml(order.model)}</p><p class="problem">${escapeHtml(order.problem)}</p><p class="meta">${escapeHtml(order.phone)} · ${escapeHtml(order.address)}<br>${escapeHtml(order.serviceType || "Orçamento")}: ${order.estimate ? money.format(order.estimate) : "A definir"} · Peça a ser trocada: ${escapeHtml(order.part || "Não definida")}</p><div class="order-notices"><p class="order-notice">Orçamento válido por 30 dias</p><p class="order-notice">Garantia de 90 dias após a execução</p></div>${order.photo ? `<img class="order-photo" src="${order.photo}" alt="Foto anexada à ordem de ${escapeHtml(order.client)}">` : ""}<button class="photo-button" type="button" data-photo-id="${order.id}">${order.photo ? "Alterar foto" : "Adicionar foto"}</button></div><div class="order-actions"><span class="status ${order.status}">${labels[order.status]}</span><button class="share-button" type="button" data-share-id="${order.id}">Compartilhar</button>${order.status !== "done" ? `<button class="finish-button" type="button" data-finish-id="${order.id}">Finalizar reparo</button>` : ""}</div></article>`,
+              )
+              .join("")
+          : '<p class="empty">Nenhuma ordem de serviço encontrada.</p>';
+        const completedOrders = orders.filter(
+          (order) => order.status === "done",
+        );
+        const historyTerm = document
+          .getElementById("history-search")
+          .value.trim();
+        const filteredCompletedOrders = completedOrders.filter((order) =>
+          String(order.number).includes(historyTerm),
+        );
+        historyElement.innerHTML = filteredCompletedOrders.length
+          ? filteredCompletedOrders
+              .map((order) => {
+                const warranty = warrantyStatus(order.completedAt);
+                const warrantyMessage = warranty.expired
+                  ? `Garantia vencida em ${warranty.expiresOn}`
+                  : `Garantia até ${warranty.expiresOn}: ${warranty.daysRemaining} dia${warranty.daysRemaining === 1 ? "" : "s"} restante${warranty.daysRemaining === 1 ? "" : "s"}`;
+                return `<article class="history-item"><div><p class="eyebrow">OS #${order.number}</p><h3>${escapeHtml(order.client)}<button class="edit-client-button" type="button" data-edit-history-client-id="${order.id}">Editar</button></h3><p class="machine">${escapeHtml(order.brand)} ${escapeHtml(order.model)}</p><p class="meta">Finalizada em ${new Intl.DateTimeFormat("pt-BR").format(new Date(order.completedAt))}</p><p class="warranty-status${warranty.expired ? " expired" : ""}">${warrantyMessage}</p>${order.photo ? `<img class="order-photo" src="${order.photo}" alt="Foto anexada à ordem de ${escapeHtml(order.client)}">` : ""}<button class="photo-button" type="button" data-photo-id="${order.id}">${order.photo ? "Alterar foto" : "Adicionar foto"}</button></div><div class="received">${money.format(order.receivedAmount || 0)}<small>Valor recebido</small><button class="edit-received-button" type="button" data-received-id="${order.id}">Editar valor</button>${warranty.expired ? "" : `<button class="finish-button" type="button" data-reopen-id="${order.id}">Reabrir na garantia</button>`}<button class="delete-history-button" type="button" data-delete-history-id="${order.id}" title="Excluir ordem" aria-label="Excluir ordem">Excluir</button></div></article>`;
+              })
+              .join("")
+          : '<p class="empty">Nenhum reparo finalizado.</p>';
+            renderMonthlyChart(completedOrders);
+      }
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const photo = await compressPhoto(
+            document.getElementById("photo").files[0],
+          );
+          orders.unshift({
+            id: crypto.randomUUID(),
+            number: generateOrderNumber(),
+            client: document.getElementById("client").value.trim(),
+            phone: document.getElementById("phone").value.trim(),
+            address: document.getElementById("address").value.trim(),
+            brand: document.getElementById("brand").value.trim(),
+            model: document.getElementById("model").value.trim(),
+            problem: document.getElementById("problem").value.trim(),
+            part: document.getElementById("part").value.trim(),
+            estimate: Number(document.getElementById("estimate").value) || 0,
+            serviceType: document.querySelector('input[name="service-type"]:checked').value,
+            photo,
+            status: document.getElementById("status").value,
+          });
+          save();
+          form.reset();
+          render();
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+      let photoOrderId = null;
+      const replacePhotoInput = document.getElementById("replace-photo");
+      function selectPhoto(event) {
+        const photoButton = event.target.closest("[data-photo-id]");
+        if (!photoButton) return false;
+        photoOrderId = photoButton.dataset.photoId;
+        replacePhotoInput.value = "";
+        replacePhotoInput.click();
+        return true;
+      }
+      ordersElement.addEventListener("click", (event) => {
+        if (selectPhoto(event)) return;
+        const editButton = event.target.closest("[data-edit-client-id]");
+        if (editButton) {
+          const order = orders.find(
+            (item) => item.id === editButton.dataset.editClientId,
+          );
+          if (!order) return;
+          const client = prompt("Informe o nome do cliente:", order.client);
+          if (client === null) return;
+          const clientName = client.trim();
+          if (!clientName) {
+            alert("Informe o nome do cliente.");
+            return;
+          }
+          order.client = clientName;
+          save();
+          render();
+          return;
+        }
+        const shareButton = event.target.closest("[data-share-id]");
+        if (shareButton) {
+          const order = orders.find(
+            (item) => item.id === shareButton.dataset.shareId,
+          );
+          if (!order) return;
+          const shareData = {
+            title: `Ordem de Serviço #${order.number}`,
+            text: orderShareText(order),
+          };
+          if (navigator.share) {
+            navigator.share(shareData).catch(() => {});
+          } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(shareData.text).then(() => {
+              alert("Dados da ordem copiados para compartilhar.");
+            });
+          } else {
+            prompt("Copie os dados da ordem:", shareData.text);
+          }
+          return;
+        }
+        const finishButton = event.target.closest("[data-finish-id]");
+        if (!finishButton) return;
+        const order = orders.find(
+          (item) => item.id === finishButton.dataset.finishId,
+        );
+        if (!order) return;
+        order.status = "done";
+        order.completedAt = new Date().toISOString();
+        order.receivedAmount = order.estimate;
+        save();
+        render();
+      });
+      historyElement.addEventListener("click", (event) => {
+        if (selectPhoto(event)) return;
+        const reopenButton = event.target.closest("[data-reopen-id]");
+        if (reopenButton) {
+          const order = orders.find(
+            (item) => item.id === reopenButton.dataset.reopenId,
+          );
+          if (!order || !confirm("Reabrir esta ordem como reparo em garantia?")) {
+            return;
+          }
+          order.status = "open";
+          order.serviceType = "Reparo em garantia";
+          order.estimate = 0;
+          order.completedAt = undefined;
+          order.receivedAmount = 0;
+          save();
+          render();
+          return;
+        }
+        const deleteButton = event.target.closest("[data-delete-history-id]");
+        if (deleteButton) {
+          if (!confirm("Excluir esta ordem finalizada?")) return;
+          orders = orders.filter(
+            (item) => item.id !== deleteButton.dataset.deleteHistoryId,
+          );
+          save();
+          render();
+          return;
+        }
+        const clientButton = event.target.closest(
+          "[data-edit-history-client-id]",
+        );
+        if (clientButton) {
+          const order = orders.find(
+            (item) => item.id === clientButton.dataset.editHistoryClientId,
+          );
+          if (!order) return;
+          const client = prompt("Informe o nome do cliente:", order.client);
+          if (client === null) return;
+          const clientName = client.trim();
+          if (!clientName) {
+            alert("Informe o nome do cliente.");
+            return;
+          }
+          order.client = clientName;
+          save();
+          render();
+          return;
+        }
+        const valueButton = event.target.closest("[data-received-id]");
+        if (!valueButton) return;
+        const order = orders.find(
+          (item) => item.id === valueButton.dataset.receivedId,
+        );
+        if (!order) return;
+        const value = prompt(
+          "Informe o valor recebido:",
+          order.receivedAmount || 0,
+        );
+        if (value === null) return;
+        const receivedAmount = Number(value.replace(",", "."));
+        if (!Number.isFinite(receivedAmount) || receivedAmount < 0) {
+          alert("Informe um valor válido.");
+          return;
+        }
+        order.receivedAmount = receivedAmount;
+        save();
+        render();
+      });
+      replacePhotoInput.addEventListener("change", async () => {
+        const file = replacePhotoInput.files[0];
+        const order = orders.find((item) => item.id === photoOrderId);
+        if (!file || !order) return;
+        try {
+          order.photo = await compressPhoto(file);
+          save();
+          render();
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+      document.getElementById("search").addEventListener("input", render);
+      document
+        .getElementById("history-search")
+        .addEventListener("input", render);
+      render();
+    </script>
+  </body>
+</html>

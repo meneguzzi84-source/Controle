@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agendamento online Isabela Meneguzzi Nails.">
+  <title>Isabela Meneguzzi Nails | Agendamento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="booking-panel" aria-labelledby="page-title">
+      <header class="brand">
+        <p class="eyebrow">Beleza em cada detalhe</p>
+        <h1 id="page-title"><span>Isabela <em>Meneguzzi</em></span><small>Nails</small></h1>
+        <p class="intro">Escolha o melhor horário para o seu momento de cuidado.</p>
+      </header>
+
+      <form id="booking-form" class="booking-form">
+        <div class="field-group">
+          <label for="client-name">Seu nome</label>
+          <input id="client-name" name="clientName" type="text" placeholder="Como podemos te chamar?" required>
+        </div>
+
+        <div class="field-group">
+          <label for="phone">WhatsApp</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="(00) 00000-0000" required>
+        </div>
+
+        <div class="field-group">
+          <label for="service">Serviço</label>
+          <select id="service" name="service" required>
+            <option value="">Selecione um serviço</option>
+            <option>Alongamento - R$ 90,00</option>
+            <option>Banho de gel - R$ 75,00</option>
+            <option>Blindagem - R$ 65,00</option>
+            <option>Esmaltação em gel - R$ 60,00</option>
+            
+            <option>Manutenção de alongamento - R$ 80,00</option>
+            <option>Manutenção em banho de gel - R$ 70,00</option>
+            
+          </select>
+        </div>
+
+        <div class="split-fields">
+          <div class="field-group">
+            <label for="date">Data</label>
+            <input id="date" name="date" type="date" required>
+          </div>
+          <div class="field-group">
+            <label for="time">Horário</label>
+            <select id="time" name="time" required disabled>
+              <option value="">Escolha a data</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="submit-button" type="submit">Confirmar agendamento</button>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <aside class="schedule-panel" aria-labelledby="schedule-title">
+      <div class="schedule-heading">
+        <p class="eyebrow">Seus horários</p>
+        <h2 id="schedule-title">Agenda do dia</h2>
+        <p id="selected-date-label">Selecione uma data para visualizar.</p>
+      </div>
+      <ul id="appointments" class="appointments" aria-live="polite"></ul>
+      <p class="schedule-note">Atendimentos somente às segundas-feiras, das 13h30 às 17h30.</p>
+
+      <section class="history-section" aria-labelledby="history-title">
+        <h3 id="history-title">Histórico de agendamentos</h3>
+        <ul id="appointment-history" class="appointment-history" aria-live="polite"></ul>
+      </section>
+    </aside>
+  </main>
+
+  <template id="appointment-template">
+    <li class="appointment">
+      <span class="appointment-time"></span>
+      <div>
+        <strong class="appointment-client"></strong>
+        <span class="appointment-service"></span>
+      </div>
+    </li>
+  </template>
+
+  <template id="history-template">
+    <li class="history-item">
+      <span class="history-date"></span>
+      <div>
+        <strong class="history-client"></strong>
+        <span class="history-details"></span>
+        <button class="cancel-button" type="button">Cancelar</button>
+      </div>
+    </li>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

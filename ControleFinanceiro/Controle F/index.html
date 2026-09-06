@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="title">Controle Financeiro</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <span data-i18n="appName">Controle Financeiro</span>
+        <h1 data-i18n="appHeadline">💵 Organize suas finanças facilmente</h1>
+        <p data-i18n="appSubtitle">Adicione receitas e despesas, acompanhe seu saldo e visualize o histórico.</p>
+      </div>
+      <div class="language-switcher">
+        <label for="language-select" class="language-label" data-i18n="languageLabel">Idioma</label>
+        <select id="language-select">
+          <option value="pt">Português</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
+    </header>
+    <section class="dashboard">
+      <div class="summary-grid">
+        <article class="card card-positive">
+          <span data-i18n="balanceLabel">Saldo</span>
+          <strong id="balance">R$ 0,00</strong>
+        </article>
+        <article class="card card-income">
+          <span data-i18n="incomeLabel">Entradas</span>
+          <strong id="income">R$ 0,00</strong>
+        </article>
+        <article class="card card-service">
+          <span data-i18n="serviceLabel">Prestações de serviços</span>
+          <strong id="service-total">R$ 0,00</strong>
+        </article>
+        <article class="card card-expense">
+          <span data-i18n="expenseLabel">Saídas</span>
+          <strong id="expense">R$ 0,00</strong>
+        </article>
+        <article class="card card-emergency">
+          <span data-i18n="emergencyLabel">Emergência</span>
+          <strong id="emergency-total">R$ 0,00</strong>
+        </article>
+        <article class="card card-investment">
+          <span data-i18n="investmentLabel">Investimento</span>
+          <strong id="investment-total">R$ 0,00</strong>
+        </article>
+      </div>
+
+      <form id="transaction-form" class="transaction-form">
+        <fieldset>
+          <legend data-i18n="transactionLegend">Nova transação</legend>
+          <div class="form-grid">
+            <label data-i18n="description">
+              Descrição
+              <input type="text" id="description" data-i18n-placeholder="descriptionPlaceholder" placeholder="Ex: Salário, Aluguel" required />
+            </label>
+            <label data-i18n="value">
+              Valor
+              <input type="number" step="0.01" id="amount" data-i18n-placeholder="valuePlaceholder" placeholder="0,00" required />
+            </label>
+            <label data-i18n="category">
+              Categoria
+              <input type="text" id="category" data-i18n-placeholder="categoryPlaceholder" placeholder="Ex: Alimentação" required />
+            </label>
+            <label data-i18n="destination">
+              Destino
+              <select id="destination">
+                <option value="normal" data-i18n="destinationNormal">Normal</option>
+                <option value="emergencia" data-i18n="destinationEmergency">Emergência</option>
+                <option value="investimento" data-i18n="destinationInvestment">Investimento</option>
+                <option value="prestacoes" data-i18n="destinationService">Prestações de serviços</option>
+              </select>
+            </label>
+            <label data-i18n="type">
+              Tipo
+              <div class="type-toggle">
+                <input type="hidden" id="type" value="income" />
+                <button type="button" class="type-btn type-income active" data-type="income" data-i18n="entry">Entrada</button>
+                <button type="button" class="type-btn type-expense" data-type="expense" data-i18n="expenseType">Saída</button>
+              </div>
+            </label>
+          </div>
+          <button type="submit" class="btn-primary" data-i18n="addTransaction">Adicionar transação</button>
+          <button type="button" id="clear-transactions" class="btn-secondary" data-i18n="clearTransactions">Limpar lançamentos</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <!-- Histórico de transações removido conforme solicitação do usuário -->
+
+    <section class="report-section">
+      <div class="history-header">
+        <h2 data-i18n="reportTitle">Relatório de despesas</h2>
+        <p data-i18n="reportDesc">Veja as despesas em ordem do maior para o menor valor.</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="transaction-table">
+          <thead>
+            <tr>
+              <th data-i18n="descriptionHeader">Descrição</th>
+              <th data-i18n="categoryHeader">Categoria</th>
+              <th data-i18n="destinationHeader">Destino</th>
+              <th data-i18n="valueHeader">Valor</th>
+              <th data-i18n="dateHeader">Data</th>
+            </tr>
+          </thead>
+          <tbody id="expense-report-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <div class="history-header">
+        <h2 data-i18n="chartTitle">Despesas  por categoria</h2>
+        <p data-i18n="chartDesc">Visualize o total gasto em cada categoria.</p>
+      </div>
+      <div class="chart-card">
+        <div id="category-chart" class="category-chart"></div>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <div class="history-header">
+        <h2 data-i18n="historyChartTitle">Histórico de entradas e saídas</h2>
+        <p data-i18n="historyChartDesc">Acompanhe cada lançamento em ordem cronológica.</p>
+      </div>
+      <div class="chart-card">
+        <div id="transaction-history-chart" class="transaction-history-chart"></div>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <p data-i18n="footer">Desenvolvido por Marlon Meneguzzi</p>
+    </footer>
+  </main>
+
+  <div id="edit-amount-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-content">
+      <header class="modal-header">
+        <h3>Editar valor da transação</h3>
+      </header>
+      <div class="modal-body">
+        <label for="edit-amount-input">Valor</label>
+        <input id="edit-amount-input" type="number" step="0.01" min="0" />
+      </div>
+      <footer class="modal-actions">
+        <button type="button" id="cancel-edit-amount" class="btn-secondary">Cancelar</button>
+        <button type="button" id="save-edit-amount" class="btn-primary">Salvar</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

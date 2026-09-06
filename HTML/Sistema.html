@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Recebíveis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f6f8; }
+    h1 { color: #004aad; }
+    .dashboard { display: flex; gap: 10px; margin-bottom: 20px; }
+    .card { flex: 1; padding: 15px; border-radius: 8px; color: #fff; text-align: center; }
+    .verde { background: #28a745; }
+    .azul { background: #007bff; }
+    .vermelho { background: #dc3545; }
+    table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 20px; }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+    .status { font-weight: bold; }
+    .em-dia { color: #28a745; }
+    .atrasado { color: #dc3545; }
+    form { background: #fff; padding: 15px; border-radius: 8px; margin-top: 20px; }
+    input, select { margin: 5px 0; padding: 8px; width: 100%; }
+    button { margin-top: 10px; padding: 8px 12px; background: #004aad; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    canvas { background: #fff; margin-top: 20px; padding: 10px; border-radius: 8px; }
+    .filtros { margin-top: 20px; background: #fff; padding: 15px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Controle de Recebíveis</h1>
+
+  <div class="dashboard">
+    <div class="card verde">A Receber<br><strong id="aReceber">R$ 0,00</strong></div>
+    <div class="card azul">Recebido<br><strong id="recebido">R$ 0,00</strong></div>
+    <div class="card vermelho">Atrasados<br><strong id="atrasado">R$ 0,00</strong></div>
+  </div>
+
+  <canvas id="graficoMensal" height="100"></canvas>
+
+  <div class="filtros">
+    <h3>Filtros</h3>
+    <input type="text" id="filtroCliente" placeholder="Filtrar por cliente...">
+    <label>De: <input type="date" id="dataInicio"></label>
+    <label>Até: <input type="date" id="dataFim"></label>
+    <button onclick="atualizarTabela()">Aplicar Filtros</button>
+  </div>
+
+  <table id="tabela">
+    <thead>
+      <tr><th>Cliente</th><th>Valor</th><th>Data</th><th>Status</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <button onclick="exportarCSV()">Exportar Histórico (CSV)</button>
+
+  <form id="formRecebimento">
+    <h3>Novo Recebimento</h3>
+    <input type="text" id="cliente" placeholder="Nome do cliente" required>
+    <input type="number" id="valor" placeholder="Valor (R$)" required>
+    <input type="date" id="data" required>
+    <select id="status">
+      <option value="em-dia">Em Dia</option>
+      <option value="atrasado">Atrasado</option>
+    </select>
+    <button type="submit">Salvar Recebimento</button>
+  </form>
+
+  <script>
+    const tabela = document.querySelector("#tabela tbody");
+    const form = document.querySelector("#formRecebimento");
+    const filtroCliente = document.getElementById("filtroCliente");
+    const dataInicio = document.getElementById("dataInicio");
+    const dataFim = document.getElementById("dataFim");
+    let recebimentos = JSON.parse(localStorage.getItem("recebimentos")) || [];
+    let graficoMensal = null;
+
+    function dentroDoPeriodo(data) {
+      if (dataInicio.value && data < dataInicio.value) return false;
+      if (dataFim.value && data > dataFim.value) return false;
+      return true;
+    }
+
+    function atualizarTabela() {
+      tabela.innerHTML = "";
+      let totalReceber = 0, totalRecebido = 0, totalAtrasado = 0;
+
+      recebimentos.forEach(r => {
+        if (filtroCliente.value && !r.cliente.toLowerCase().includes(filtroCliente.value.toLowerCase())) return;
+        if (!dentroDoPeriodo(r.data)) return;
+
+        const linha = document.createElement("tr");
+        linha.innerHTML = `
+          <td>${r.cliente}</td>
+          <td>R$ ${r.valor.toFixed(2)}</td>
+          <td>${r.data}</td>
+          <td class="status ${r.status}">${r.status === "em-dia" ? "Em Dia" : "Atrasado"}</td>
+        `;
+        tabela.appendChild(linha);
+
+        if (r.status === "em-dia") totalReceber += r.valor;
+        else totalAtrasado += r.valor;
+        totalRecebido += r.valor;
+      });
+
+      document.getElementById("aReceber").textContent = `R$ ${totalReceber.toFixed(2)}`;
+      document.getElementById("atrasado").textContent = `R$ ${totalAtrasado.toFixed(2)}`;
+      document.getElementById("recebido").textContent = `R$ ${totalRecebido.toFixed(2)}`;
+
+      atualizarGrafico();
+    }
+
+    function atualizarGrafico() {
+      const meses = {};
+      recebimentos.forEach(r => {
+        if (filtroCliente.value && !r.cliente.toLowerCase().includes(filtroCliente.value.toLowerCase())) return;
+        if (!dentroDoPeriodo(r.data)) return;
+
+        const mes = r.data.slice(0,7); // AAAA-MM
+        if (!meses[mes]) meses[mes] = { emDia: 0, atrasado: 0 };
+        if (r.status === "em-dia") meses[mes].emDia += r.valor;
+        else meses[mes].atrasado += r.valor;
+      });
+
+      const labels = Object.keys(meses).sort();
+      const emDiaData = labels.map(m => meses[m].emDia);
+      const atrasadoData = labels.map(m => meses[m].atrasado);
+
+      if (graficoMensal) graficoMensal.destroy();
+      graficoMensal = new Chart(document.getElementById("graficoMensal"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            { label: "Em Dia", data: emDiaData, backgroundColor: "#28a745" },
+            { label: "Atrasado", data: atrasadoData, backgroundColor: "#dc3545" }
+          ]
+        },
+        options: { responsive: true, plugins: { legend: { position: "top" } } }
+      });
+    }
+
+    function exportarCSV() {
+      let csv = "Cliente,Valor,Data,Status\n";
+      recebimentos.forEach(r => {
+        if (filtroCliente.value && !r.cliente.toLowerCase().includes(filtroCliente.value.toLowerCase())) return;
+        if (!dentroDoPeriodo(r.data)) return;
+        csv += `${r.cliente},${r.valor},${r.data},${r.status === "em-dia" ? "Em Dia" : "Atrasado"}\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "historico_recebimentos.csv";
+      link.click();
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const novo = {
+        cliente: document.getElementById("cliente").value,
+        valor: parseFloat(document.getElementById("valor").value),
+        data: document.getElementById("data").value,
+        status: document.getElementById("status").value
+      };
+      recebimentos.push(novo);
+      localStorage.setItem("recebimentos", JSON.stringify(recebimentos));
+      form.reset();
+      atualizarTabela();
+    });
+
+    filtroCliente.addEventListener("input", atualizarTabela);
+
+    atualizarTabela();
+  </script>
+</body>
+</html>

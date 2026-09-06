@@ -1,0 +1,11 @@
+{
+  "name": "controle-financeiro",
+  "version": "1.0.0",
+  "description": "App de controle financeiro",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "18"
+  }
+}

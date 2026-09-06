@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controle Financeiro</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <span>Controle Financeiro</span>
+        <h1>Organize suas finanças facilmente</h1>
+        <p>Adicione receitas e despesas, acompanhe seu saldo e visualize o histórico.</p>
+      </div>
+    </header>
+
+    <section class="dashboard">
+      <div class="summary-grid">
+        <article class="card card-positive">
+          <span>Saldo</span>
+          <strong id="balance">R$ 0,00</strong>
+        </article>
+        <article class="card card-income">
+          <span>Entradas</span>
+          <strong id="income">R$ 0,00</strong>
+        </article>
+        <article class="card card-expense">
+          <span>Saídas</span>
+          <strong id="expense">R$ 0,00</strong>
+        </article>
+      </div>
+
+      <form id="transaction-form" class="transaction-form">
+        <fieldset>
+          <legend>Nova transação</legend>
+          <div class="form-grid">
+            <label>
+              Descrição
+              <input type="text" id="description" placeholder="Ex: Salário, Aluguel" required />
+            </label>
+            <label>
+              Valor
+              <input type="number" step="0.01" id="amount" placeholder="0,00" required />
+            </label>
+            <label>
+              Categoria
+              <input type="text" id="category" placeholder="Ex: Alimentação" required />
+            </label>
+            <label>
+              Tipo
+              <div class="type-toggle">
+                <input type="hidden" id="type" value="income" />
+                <button type="button" class="type-btn type-income active" data-type="income">Entrada</button>
+                <button type="button" class="type-btn type-expense" data-type="expense">Saída</button>
+              </div>
+            </label>
+          </div>
+          <button type="submit" class="btn-primary">Adicionar transação</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="history-section">
+      <div class="history-header">
+        <h2>Histórico de transações</h2>
+        <p>Toque no ícone de lixeira para remover uma transação.</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="transaction-table">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Valor</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="transaction-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="history-header">
+        <h2>Relatório de despesas</h2>
+        <p>Veja as despesas em ordem do maior para o menor valor.</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="transaction-table">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Valor</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody id="expense-report-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <div class="history-header">
+        <h2>Despesas por categoria</h2>
+        <p>Visualize o total gasto em cada categoria.</p>
+      </div>
+      <div class="chart-card">
+        <div id="category-chart" class="category-chart"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
