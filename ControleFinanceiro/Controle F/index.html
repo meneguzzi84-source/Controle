@@ -1274,7 +1274,6 @@
 						if (parts) return `${parts.y}-${String(parts.m).padStart(2, '0')}-${String(parts.d).padStart(2, '0')}`;
 					} catch (e) {}
 				}
-				// Cálculo de data serial caso SSF não esteja disponível
 				const date = new Date(Math.round((value - 25569) * 86400 * 1000));
 				if (!Number.isNaN(date.getTime())) {
 					return date.toISOString().slice(0, 10);
@@ -1289,10 +1288,11 @@
 			const text = String(value || '').trim();
 			if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
 			
-			// Formato brasileiro: 01/09/2026, 1/9/26, 01-09-2026
-			const match = text.match(/^(\d{1,2})[\/\.-](\d{1,2})[\/\.-](\d{2}|\d{4})$/);
+			// DD/MM/YYYY ou DD/MM/YY (com ou sem horário)
+			const match = text.match(/^(\d{1,2})[\/\.-](\d{1,2})[\/\.-](\d{2,4})/);
 			if (match) {
-				const year = match[3].length === 2 ? `20${match[3]}` : match[3];
+				let year = match[3];
+				if (year.length === 2) year = '20' + year;
 				const month = match[2].padStart(2, '0');
 				const day = match[1].padStart(2, '0');
 				return `${year}-${month}-${day}`;
@@ -1343,29 +1343,50 @@
 					message.textContent = 'A planilha está vazia ou não contém dados suficientes.';
 					return;
 				}
-				const headers = (rows.shift() || []).map(normalizeHeader);
-				const column = (names) => headers.findIndex((h) => names.some((n) => h.includes(n)));
 
-				const clientColumn = column(['cliente', 'nome', 'assinante', 'client', 'name']);
-				const usernameColumn = column(['usuario', 'nome de usuario', 'nome usuario', 'username', 'user', 'login']);
-				const passwordColumn = column(['senha', 'password', 'pass']);
-				const descriptionColumn = column(['descricao', 'descricao da cobranca', 'servico', 'plano', 'description', 'obs']);
-				const amountColumn = column(['valor', 'valor (r$)', 'valor r$', 'valor (rs)', 'amount', 'preco', 'preço']);
-				const entryDateColumn = column(['data de entrada', 'data entrada', 'entrada', 'inicio', 'cadastro', 'entry']);
-				const dueDateColumn = column(['data de vencimento', 'data vencimento', 'vencimento', 'validade', 'vence', 'due']);
-				const statusColumn = column(['status', 'situacao', 'situação', 'pago']);
+				// Procura a melhor linha de cabeçalho nas primeiras 10 linhas
+				let headerIndex = 0;
+				let headers = [];
+				for (let r = 0; r < Math.min(10, rows.length); r++) {
+					const candidate = (rows[r] || []).map(normalizeHeader);
+					const foundMatch = candidate.some(h => ['cliente', 'nome', 'assinante', 'notas', 'nota', 'usuario', 'user', 'vencimento'].some(k => h.includes(k)));
+					if (foundMatch) {
+						headerIndex = r;
+						headers = candidate;
+						break;
+					}
+				}
+				if (!headers.length) headers = (rows[0] || []).map(normalizeHeader);
+
+				const column = (names) => headers.findIndex((h) => names.some((n) => h.includes(n) || h === n));
+
+				let clientColumn = column(['cliente', 'nome', 'assinante', 'client', 'name', 'notas', 'nota']);
+				let usernameColumn = column(['usuario', 'nome de usuario', 'nome usuario', 'username', 'user', 'login']);
+				let passwordColumn = column(['senha', 'password', 'pass']);
+				let descriptionColumn = column(['descricao', 'descricao da cobranca', 'servico', 'plano', 'description', 'obs']);
+				let amountColumn = column(['valor', 'valor (r$)', 'valor r$', 'valor (rs)', 'amount', 'preco', 'preço']);
+				let entryDateColumn = column(['data de entrada', 'data entrada', 'entrada', 'inicio', 'cadastro', 'entry']);
+				let dueDateColumn = column(['data de vencimento', 'data vencimento', 'vencimento', 'validade', 'vence', 'due', 'data de pagamento', 'pagamento']);
+				let statusColumn = column(['status', 'situacao', 'situação', 'pago']);
+
+				// Se não tiver coluna explícita de nome/notas mas tiver usuário, usa usuário como cliente
+				if (clientColumn < 0 && usernameColumn >= 0) {
+					clientColumn = usernameColumn;
+				}
 
 				if (clientColumn < 0) {
-					message.textContent = 'Não foi encontrada a coluna de Cliente ou Nome na planilha.';
-					return;
+					// Pega a primeira coluna não vazia como cliente
+					clientColumn = 0;
 				}
 
 				const imported = [];
 				let skipped = 0;
+				const dataRows = rows.slice(headerIndex + 1);
 
-				rows.forEach((row, rowIndex) => {
+				dataRows.forEach((row, rowIndex) => {
 					if (!row || !row.length) return;
-					const client = String(row[clientColumn] || '').trim();
+					let client = clientColumn >= 0 ? String(row[clientColumn] || '').trim() : '';
+					if (!client && usernameColumn >= 0) client = String(row[usernameColumn] || '').trim();
 					if (!client) { skipped += 1; return; }
 
 					const rawAmount = amountColumn >= 0 ? row[amountColumn] : 0;
@@ -1385,12 +1406,13 @@
 
 					if (sheet && window.XLSX?.utils) {
 						try {
+							const actualRow = headerIndex + 1 + rowIndex;
 							if (dueDateColumn >= 0) {
-								const cellDue = sheet[XLSX.utils.encode_cell({ r: rowIndex + 1, c: dueDateColumn })];
+								const cellDue = sheet[XLSX.utils.encode_cell({ r: actualRow, c: dueDateColumn })];
 								if (cellDue && cellDue.w) dueDateOriginal = cellDue.w;
 							}
 							if (entryDateColumn >= 0) {
-								const cellEntry = sheet[XLSX.utils.encode_cell({ r: rowIndex + 1, c: entryDateColumn })];
+								const cellEntry = sheet[XLSX.utils.encode_cell({ r: actualRow, c: entryDateColumn })];
 								if (cellEntry && cellEntry.w) entryDateOriginal = cellEntry.w;
 							}
 						} catch (e) {}
@@ -1401,9 +1423,9 @@
 					imported.push({
 						id: `${Date.now()}-${imported.length}-${Math.random().toString(36).slice(2, 7)}`,
 						client,
-						username: usernameColumn < 0 ? '' : String(row[usernameColumn] || '').trim(),
-						password: passwordColumn < 0 ? '' : String(row[passwordColumn] || ''),
-						description: descriptionColumn < 0 ? 'Cobrança importada' : String(row[descriptionColumn] || 'Cobrança importada').trim(),
+						username: usernameColumn >= 0 ? String(row[usernameColumn] || '').trim() : '',
+						password: passwordColumn >= 0 ? String(row[passwordColumn] || '') : '',
+						description: descriptionColumn >= 0 ? String(row[descriptionColumn] || 'P2P').trim() : 'P2P',
 						amount,
 						entryDate: entryDate || dueDate,
 						entryDateOriginal,
@@ -1439,11 +1461,14 @@
 				try {
 					if (window.XLSX) {
 						const workbook = XLSX.read(event.target.result, { type: 'array', cellDates: false });
-						const sheet = workbook.Sheets[workbook.SheetNames[0]];
-						const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: true });
-						if (rows && rows.length > 1 && rows[0].length > 1) {
-							processTableData(rows, sheet);
-							return;
+						// Percorre as abas até encontrar uma com dados
+						for (const sName of workbook.SheetNames) {
+							const sheet = workbook.Sheets[sName];
+							const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: true });
+							if (rows && rows.length >= 2) {
+								processTableData(rows, sheet);
+								return;
+							}
 						}
 					}
 				} catch (err) {
